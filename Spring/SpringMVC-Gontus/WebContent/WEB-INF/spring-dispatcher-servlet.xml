@@ -11,8 +11,7 @@
 <!--  	<context:component-scan base-package="controller" />
 	<mvc:annotation-driven />
 	-->
-	<bean id="HandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">  </bean>
-	<bean name="/welcome.html" class="me.hellocontroller.HelloController"></bean>
+	<context:component-scan base-package="me.hellocontroller" />
 	<bean id="viewResolver"
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">

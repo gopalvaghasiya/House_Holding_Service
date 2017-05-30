@@ -1,17 +1,17 @@
 package me.hellocontroller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
-public class HelloController extends AbstractController{
+@Controller
+public class HelloController{
 	
-	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest req,HttpServletResponse res)throws Exception{
+	@RequestMapping("/welcome")
+	public ModelAndView hello(){
 		ModelAndView model=new ModelAndView("HelloPage");
-		model.addObject("welcomeMessage","Wellcome to spring ");
+		model.addObject("msg","Helllo How are you");
+		
 		return model;
 	}
 }
