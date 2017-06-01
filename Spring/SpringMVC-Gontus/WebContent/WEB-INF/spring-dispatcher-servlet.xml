@@ -8,10 +8,17 @@
 	    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
 	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 	
-<!--  	<context:component-scan base-package="controller" />
+
 	<mvc:annotation-driven />
-	-->
 	<context:component-scan base-package="me.hellocontroller" />
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/admision"/>
+			<bean class="me.hellocontroller.Day"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<bean id="viewResolver"
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
@@ -22,5 +29,33 @@
         </property>
     </bean>
 	
- <!--    <mvc:resources mapping="/webjars/**" location="/webjars/"/>-->
+  <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+   	<property name="basename" value="/WEB-INF/studentmessage.properties"></property>
+  </bean>
+  
+  <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="465" />
+        <property name="username" value="kakadiyahardik1996@gmail.com" />
+        <property name="password" value="11896harb@tech" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>
+     
+       
+    <bean
+        class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="java.lang.Exception">HelloPage</prop>
+            </props>
+        </property>
+    </bean>
+  
+  
 </beans>

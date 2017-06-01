@@ -7,6 +7,37 @@
 <title>Insert title here</title>
 </head>
 <body>
+<h3>${exception.message}</h3>
 <h1>${msg}</h1>
+
+	<table>
+	<tr>
+		<td>Student Name:</td>
+		<td>${student.studentName}</td>
+	</tr>
+	<tr>
+		<td>student Hobby</td>
+		<td>${student.studentHobby}</td>
+	</tr>
+	<tr>
+		<td>student Mobile</td>
+		<td>${student.studentMobile}</td>
+	</tr>
+	<tr>
+		<td>student DOB</td>
+		<td>${student.studentDOB}</td>
+	</tr>
+	<tr>
+		<td>student Skill</td>
+		<td>${student.studentSkills}</td>
+	</tr>
+	<tr>
+		<td>student Address</td>
+		<td>$Country:${student.studentAddress.country}
+		$City:${student.studentAddress.city}
+		$Street:${student.studentAddress.street}
+		$Pincode:${student.studentAddress.pincode}</td>
+	</tr>
+	</table>
 </body>
 </html>
