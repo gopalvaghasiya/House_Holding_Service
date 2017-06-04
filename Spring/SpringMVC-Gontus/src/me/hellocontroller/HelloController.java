@@ -1,6 +1,10 @@
 package me.hellocontroller;
 
+
+
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +23,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -29,15 +34,22 @@ public class HelloController{
 	public void binder(WebDataBinder binder){
 		//binder.setDisallowedFields(new String[]{"studentMobile"});
 	}
+	
 	@RequestMapping(value="/admision", method = RequestMethod.GET)
 	public ModelAndView hello(@PathVariable Map<String,String> val){
+		System.out.println("yes");
+		RestTemplate rest=new RestTemplate();
 		
-		String ex="NULL_POINTER";
+		ArrayList<LinkedHashMap> list=rest.getForObject("localhost:8080/SpringMVC-Gontus/students",ArrayList.class);
+		
+		/*for(LinkedHashMap m:list)
+			System.out.println(m);
+		/*String ex="NULL_POINTER";
 		
 		if(ex.equalsIgnoreCase("NULL_POINTER")){
 			//throw new NullPointerException("null pointer");
 		}
-		
+		*/
 		ModelAndView model=new ModelAndView("admision");
 		
 		return model;
@@ -95,39 +107,5 @@ public class HelloController{
     }
 	//****************************************************************
 	
-	//********************Rest API***********************************//
-	@ResponseBody
-	@RequestMapping(value="/students",method=RequestMethod.GET)
-	public ArrayList<Student> getStudentList(){
-		
-		Student s1=new Student();
-		s1.setStudentName("Hardik");
-		
-		Student s2=new Student();
-		s2.setStudentName("Gopal");
-		
-		Student s3=new Student();
-		s3.setStudentName("Danny");
-		
-		ArrayList<Student> list=new ArrayList<>();
-		list.add(s1);
-		list.add(s2);
-		list.add(s3);
-		
-		return list;
-		
-	}
 	
-	@ResponseBody
-	@RequestMapping(value="/students/{name}",method=RequestMethod.GET)
-	public Student getStudetnNameWise(@PathVariable("name")String studentName){
-		
-		Student s1=new Student();
-		s1.setStudentName(studentName);
-		s1.setStudentHobby("Coding");
-		
-		
-		return s1;
-		
-	}
 }

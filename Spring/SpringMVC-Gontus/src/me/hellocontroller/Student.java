@@ -1,12 +1,13 @@
 package me.hellocontroller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.validation.constraints.Size;
 
 
-public class Student {
+public class Student implements Serializable {
 	
 	private String studentName;
 	
