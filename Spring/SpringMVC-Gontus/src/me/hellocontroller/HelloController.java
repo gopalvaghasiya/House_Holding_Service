@@ -1,12 +1,17 @@
 package me.hellocontroller;
 
-import java.util.ArrayList;
+
+
+
+
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
@@ -19,7 +24,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -29,15 +35,61 @@ public class HelloController{
 	public void binder(WebDataBinder binder){
 		//binder.setDisallowedFields(new String[]{"studentMobile"});
 	}
+	
 	@RequestMapping(value="/admision", method = RequestMethod.GET)
 	public ModelAndView hello(@PathVariable Map<String,String> val){
 		
-		String ex="NULL_POINTER";
+		RestTemplate rest=new RestTemplate();
+		
+
+		//		URL obj=new URL(url);
+//		HttpURLConnection con=(HttpURLConnection) obj.openConnection();
+//		int code=con.getResponseCode();
+//		System.out.println(code);
+//		
+//		BufferedReader br=new BufferedReader(new InputStreamReader(con.getInputStream()));
+//		System.out.println(br.readLine());
+		
+//*******************GET*************************
+//		String url="http://localhost:8080/SpringMVC-Gontus/students";
+//		ResponseEntity<Student> stu=rest.getForEntity(url,Student.class);
+//		Student st=stu.getBody();
+//		System.out.println(st.getStudentName());
+		
+//**********************POST***********************	
+		
+//		String url="http://localhost:8080/SpringMVC-Gontus/studentpost/{id}";
+//		Student tmp=new Student();
+//		tmp.setStudentName("hardik");
+//		tmp.setStudentHobby("coding");
+//		
+//		Map<String,String> map=new HashMap<>();
+//		map.put("id", "1");
+//		System.out.println("yes");
+//		
+//		Student stu=rest.postForObject(url,tmp ,Student.class,map);
+//		System.out.println(stu.getStudentName());
+		
+//********************DELETE****************************
+//		String url="http://localhost:8080/SpringMVC-Gontus/studentdelete/{id}";
+//		Map<String,String> map=new HashMap<>();
+//		map.put("id","1");
+//		rest.delete(url,map);
+//********************PUT*******************************
+		
+		String url="http://localhost:8080/SpringMVC-Gontus/studentput";
+		Student st=new Student();
+		
+		st.setStudentName("hardik-put");
+		st.setStudentHobby("song");
+		rest.put(url, st);
+		
+		/*String ex="NULL_POINTER";
 		
 		if(ex.equalsIgnoreCase("NULL_POINTER")){
 			//throw new NullPointerException("null pointer");
 		}
-		
+		*/
 		ModelAndView model=new ModelAndView("admision");
 		
 		return model;
@@ -83,51 +135,18 @@ public class HelloController{
          
         // creates a simple e-mail object
         SimpleMailMessage email = new SimpleMailMessage();
+        email.setFrom("kakadiyahardik1996@gmail.com");
         email.setTo(recipientAddress);
         email.setSubject(subject);
         email.setText(message);
         
         // sends the e-mail
         mailSender.send(email);
-        System.out.println("yes");
+        
         // forwards to the view named "Result"
         return "mail";
     }
 	//****************************************************************
 	
-	//********************Rest API***********************************//
-	@ResponseBody
-	@RequestMapping(value="/students",method=RequestMethod.GET)
-	public ArrayList<Student> getStudentList(){
-		
-		Student s1=new Student();
-		s1.setStudentName("Hardik");
-		
-		Student s2=new Student();
-		s2.setStudentName("Gopal");
-		
-		Student s3=new Student();
-		s3.setStudentName("Danny");
-		
-		ArrayList<Student> list=new ArrayList<>();
-		list.add(s1);
-		list.add(s2);
-		list.add(s3);
-		
-		return list;
-		
-	}
 	
-	@ResponseBody
-	@RequestMapping(value="/students/{name}",method=RequestMethod.GET)
-	public Student getStudetnNameWise(@PathVariable("name")String studentName){
-		
-		Student s1=new Student();
-		s1.setStudentName(studentName);
-		s1.setStudentHobby("Coding");
-		
-		
-		return s1;
-		
-	}
 }
