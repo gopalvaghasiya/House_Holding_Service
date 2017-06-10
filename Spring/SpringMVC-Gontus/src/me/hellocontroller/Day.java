@@ -16,7 +16,7 @@ public class Day extends HandlerInterceptorAdapter{
 		Calendar cal=Calendar.getInstance();
 		int day=cal.get(cal.DAY_OF_WEEK);
 		
-		if(day==1){
+		if(day==7){
 			res.getWriter().write("the website is in under maintainnig plese visit later");
 			
 			return false;

@@ -1,12 +1,13 @@
 package me.hellocontroller;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.validation.constraints.Size;
 
 
-public class Student {
+public class Student{
 	
 	private String studentName;
 	
