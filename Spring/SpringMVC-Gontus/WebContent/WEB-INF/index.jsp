@@ -14,8 +14,9 @@
  <p>
   This page has styles set for paragraphs, body, and header 1.
  </p>
- <p>
-  The styles are defined in an external style sheet.
- </p>
- </body>
+	
+	<%@ include file="table.jsp" %>	
+
+</body>
 </html>
+	
