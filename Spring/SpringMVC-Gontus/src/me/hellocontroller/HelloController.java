@@ -33,7 +33,7 @@ public class HelloController{
 	
 	@RequestMapping(value="/admin", method = RequestMethod.GET)
 	public String adminPanle(){
-		System.out.println("yes");
+		
 		return "index";
 	}
 	@InitBinder
