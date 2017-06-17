@@ -51,7 +51,44 @@
                 
                 <!-- Main content -->
                 <section class="content">
-               	
+               	<div class="row">
+                        <div class="col-xs-12">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Service Categories</h3>
+                                    
+                                </div><!-- /.box-header -->
+                                <div class="box-body table-responsive no-padding">
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Category_Name</th>
+                                            <th>Description</th>
+                                            <th>Image</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr>
+                                            <td>183</td>
+                                            <td>John Doe</td>
+                                            <td>@Gmail.com</td>
+                                            <td>1836545646</td>
+                                            <td class="center">
+												<a class="btn btn-info" href="#">
+									                <i class="glyphicon glyphicon-edit icon-white"></i>
+									                Edit
+									            </a>
+									            <a class="btn btn-danger" href="#">
+									                <i class="glyphicon glyphicon-trash icon-white"></i>
+									                Delete
+									            </a>
+									        </td>
+                                        </tr>
+                                        
+                                    </table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        </div>
+                    </div>
                	</section>
            </aside>
             <!-- /.right-side -->

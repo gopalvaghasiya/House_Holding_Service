@@ -51,7 +51,40 @@
                 
                 <!-- Main content -->
                 <section class="content">
-               	
+               	<div class="row">
+                        <div class="col-xs-12">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Customers</h3>
+                                    
+                                </div><!-- /.box-header -->
+                                <div class="box-body table-responsive no-padding">
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>E-Mail</th>
+                                            <th>Mobile_No</th>
+                                            <th>Area</th>
+                                            <th>Address</th>
+                                            <th>Status</th>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>183</td>
+                                            <td>John Doe</td>
+                                            <td>@Gmail.com</td>
+                                            <td>1836545646</td>
+                                            <td>sector 2</td>
+                                            <td>gnd</td>
+                                            <td><span class="label label-success">Active</span></td>
+                                        </tr>
+                                        
+                                    </table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        </div>
+                    </div>
                	</section>
            </aside>
             <!-- /.right-side -->
