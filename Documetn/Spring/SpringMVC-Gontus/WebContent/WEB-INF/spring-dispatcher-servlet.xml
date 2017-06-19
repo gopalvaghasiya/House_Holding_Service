@@ -59,5 +59,20 @@
         </property>
     </bean>
   
-  
+  <!-- Data-base work -->
+   <bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
+	<property name="driverClassName" value="org.postgresql.Driver"></property>  
+	<property name="url" value="jdbc:postgresql://localhost:5432/demo"></property>  
+	<property name="username" value="postgres"></property>  
+	<property name="password" value="root"></property>  
+	</bean>  
+	  
+	<bean id="jt" class="org.springframework.jdbc.core.JdbcTemplate">  
+	<property name="dataSource" ref="ds"></property>  
+	</bean>  
+	  
+	<bean id="dao" class="me.dao.StudentDAO">  
+	<property name="template" ref="jt"></property>  
+	</bean>
+	
 </beans>

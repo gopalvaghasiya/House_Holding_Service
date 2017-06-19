@@ -1,9 +1,5 @@
 package me.hellocontroller;
 
-
-
-
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,12 +24,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import me.dao.StudentDAO;
+
 @Controller
 public class HelloController{
 	
+	@Autowired
+	StudentDAO dao;
+	
 	@RequestMapping(value="/admin", method = RequestMethod.GET)
 	public String adminPanle(){
-		
+		dao.save();
 		return "index";
 	}
 	@InitBinder
