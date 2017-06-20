@@ -12,6 +12,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 
@@ -29,12 +30,13 @@ import me.dao.StudentDAO;
 @Controller
 public class HelloController{
 	
+	
 	@Autowired
 	StudentDAO dao;
 	
 	@RequestMapping(value="/admin", method = RequestMethod.GET)
 	public String adminPanle(){
-		dao.save();
+		//dao.save();
 		return "index";
 	}
 	@InitBinder
@@ -43,7 +45,7 @@ public class HelloController{
 	}
 	
 	@RequestMapping(value="/admision", method = RequestMethod.GET)
-	public ModelAndView hello(@PathVariable Map<String,String> val){
+	public String hello(@PathVariable Map<String,String> val,ModelMap model){
 		
 		RestTemplate rest=new RestTemplate();
 		
@@ -83,22 +85,21 @@ public class HelloController{
 //		rest.delete(url,map);
 //********************PUT*******************************
 		
-		String url="http://localhost:8080/SpringMVC-Gontus/studentput";
-		Student st=new Student();
-		
-		st.setStudentName("hardik-put");
-		st.setStudentHobby("song");
-		rest.put(url, st);
-		
+//		String url="http://localhost:8080/SpringMVC-Gontus/studentput";
+//		Student st=new Student();
+//		
+//		st.setStudentName("hardik-put");
+//		st.setStudentHobby("song");
+//		rest.put(url, st);
+//		
 		/*String ex="NULL_POINTER";
 		
 		if(ex.equalsIgnoreCase("NULL_POINTER")){
 			//throw new NullPointerException("null pointer");
 		}
 		*/
-		ModelAndView model=new ModelAndView("admision");
-		
-		return model;
+		model.addAttribute("name", "hardik");
+		return "redirect:/admision.jsp";
 	}
 	
 	@ModelAttribute
