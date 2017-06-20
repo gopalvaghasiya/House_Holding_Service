@@ -1,13 +1,5 @@
 /*!
- * Author: Abdullah A Almsaeed
- * Date: 4 Jan 2014
- * Description:
- *      This file should be included in all pages
- !**/
-
-/*
- * Global variables. If you change any of these vars, don't forget 
- * to change the values in the less files!
+ *hardik kakadiya
  */
 var left_side_width = 220; //Sidebar width in pixels
 
@@ -135,7 +127,7 @@ $(function() {
     });
 
     /* For demo purposes */
-    var demo = $("<div />").css({
+   /*var demo = $("<div />").css({
         position: "fixed",
         top: "150px",
         right: "0",
@@ -203,7 +195,7 @@ $(function() {
     });
 
     $("body").append(demo);
-    $("body").append(demo_settings);
+    $("body").append(demo_settings);*/
 });
 function fix_sidebar() {
     //Make sure the body tag has the .fixed class
