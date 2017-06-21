@@ -1,18 +1,30 @@
 package root.testing;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import root.dao.ServiceDAO;
+import root.model.Admin;
 
 //@Controller
 public class TestingController {
 
-	//@Autowired
-	//StudentDAO s;
-	
+//	@Autowired
+//	ServiceDAO s;
+//	
 //	@RequestMapping(value="/index",method=RequestMethod.GET)
 //	public String moveToIndex(){
-//		s.save();
-//		return "index";
+//		Admin admin=s.isValidAdmin("hardik", "hardik");
+//		System.out.println(admin);
+//		
+//		if(admin!=null)
+//			System.out.println(admin.getUserName());
+//		
+//		return "admin/login";
 //	}
-//	
+	
 //	@RequestMapping(value="admin/customer",method=RequestMethod.GET)
 //	public String moveTocustomer(){
 //		return "customer";

@@ -106,6 +106,7 @@ public class HelloController{
 	public void message(Model model){
 		model.addAttribute("msg","hi, How are you ");
 	}
+	
 	@RequestMapping(value="/submitadmissionform",method=RequestMethod.POST)
 	public ModelAndView hi(@Valid @ModelAttribute("student") Student st, BindingResult result){
 		

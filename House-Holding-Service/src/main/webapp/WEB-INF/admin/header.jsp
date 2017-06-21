@@ -1,5 +1,5 @@
 <header class="header">
-            <a href="index.html" class="logo">
+            <a href="/admin/home" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 House_Holding_Service
             </a>
@@ -31,7 +31,7 @@
                                 <li class="user-header bg-light-blue">
                                     <img src="/resources/admin/img/avatar5.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        Hardik
+                                        ${name}
                                         
                                     </p>
                                 </li>
