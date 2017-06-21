@@ -21,6 +21,7 @@ public class StudentRestAPI {
 		@RequestMapping(value="/students",method=RequestMethod.GET)
 		public ResponseEntity<Student> getStudentList(){
 			
+			//retriving all student resord db
 			Student s1=new Student();
 			s1.setStudentName("Hardik");
 			
@@ -42,6 +43,7 @@ public class StudentRestAPI {
 		@RequestMapping(value="/students/{name}",method=RequestMethod.GET)
 		public Student getStudetnNameWise(@PathVariable("name")String studentName){
 			
+			//retriving student record by name from db
 			Student s1=new Student();
 			s1.setStudentName(studentName);
 			s1.setStudentHobby("Coding");
@@ -56,6 +58,8 @@ public class StudentRestAPI {
 			System.out.println("Student name"+studentName);
 			System.out.println("studname "+student.getStudentName()+" hobby"+student.getStudentHobby());
 			
+			//updating student record from DB where name is = give above
+			//retur true if update succes
 			HttpHeaders h=new HttpHeaders();
 			h.add("key1", "value");
 			h.add("key2","value2");
@@ -92,6 +96,7 @@ public class StudentRestAPI {
 		public Student postDemo(@PathVariable("id") String id,@RequestBody Student student){
 			System.out.println("Student id "+id+" Student name "+student.getStudentName());
 			
+			//insert student record in to database
 			Student st=new Student();
 			st.setStudentName(student.getStudentName());
 			st.setStudentHobby(student.getStudentHobby());
@@ -103,6 +108,7 @@ public class StudentRestAPI {
 		@RequestMapping(value="/studentdelete/{id}", method=RequestMethod.DELETE)
 		public void deleteDemo(@PathVariable("id") String id){
 			
+			//delete record from studen twhere id is given
 			System.out.println("Student id for delete Student "+id);
 		}
 	
