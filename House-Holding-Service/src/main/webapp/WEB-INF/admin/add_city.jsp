@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Home</title>
+        <title>Add City</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         
         <%@include file="include-css.jsp" %>
@@ -28,7 +28,26 @@
                 
                 <!-- Main content -->
                 <section class="content">
-                
+               		<div class="box box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Add City</h3>
+                                    <p>${response}</p>
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                                <form role="form" method="post" action="/admin/add_city">
+                                    
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">City Name</label>
+                                            <input type="text" name="cityName" class="form-control" placeholder="City name">
+                                        </div>
+                                        
+                                    </div><!-- /.box-body -->
+
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">Add</button>
+                                    </div>
+                                </form>
+                            </div>
                	</section>
            </aside>
             <!-- /.right-side -->

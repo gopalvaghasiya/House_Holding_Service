@@ -24,15 +24,14 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span>Hardik <i class="caret"></i></span>
+                                <span>${sessionScope.user.userName}<i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
                                     <img src="/resources/admin/img/avatar5.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        ${name}
-                                        
+                                        ${sessionScope.user_role}
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
@@ -43,7 +42,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="/admin/logout" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>

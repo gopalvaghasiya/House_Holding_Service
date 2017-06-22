@@ -27,11 +27,12 @@
             <div class="header">Sign In</div>
             <form action="/admin/login" method="post">
                 <div class="body bg-gray">
+                <p>${message}</p>
                     <div class="form-group">
-                        <input type="text" name="userName" class="form-control" placeholder="User Name"/>
+                        <input type="text" name="userName" class="form-control" placeholder="User Name" required/>
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password" class="form-control" placeholder="Password"/>
+                        <input type="password" name="password" class="form-control" placeholder="Password" required/>
                     </div>          
                     <div class="form-group">
                         <input type="checkbox" name="remember_me"/> Remember me
