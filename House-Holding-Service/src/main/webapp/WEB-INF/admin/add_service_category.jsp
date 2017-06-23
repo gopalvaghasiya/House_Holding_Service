@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Home</title>
+        <title>Add service category</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         
         <%@include file="include-css.jsp" %>
@@ -31,22 +31,24 @@
                		<div class="box box-primary">
                                 <div class="box-header">
                                     <h3 class="box-title">Add Service Category</h3>
+                                    
                                 </div><!-- /.box-header -->
+                                <h4>${response}</h4>
                                 <!-- form start -->
-                                <form role="form">
+                                <form role="form" method="post" enctype="multipart/form-data" action="/admin/add_service_category">
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Category Name</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="category name">
+                                            <input type="text" class="form-control" id="cateName" name="cateName" placeholder="category name" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Description</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Description">
+                                            <input type="text" class="form-control" id="cateDesc" name="cateDesc" placeholder="Description" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputFile">Image</label>
-                                            <input type="file" id="exampleInputFile">
-                                            <p class="help-block">select image so user can identify service.</p>
+                                            <input type="file" id="exampleInputFile" name="file" required>
+                                            <p class="help-block">set image so user can identify service.</p>
                                         </div>
                                         
                                     </div><!-- /.box-body -->
