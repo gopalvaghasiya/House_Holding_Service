@@ -46,11 +46,35 @@ public class HouseHoldingRestAPI {
 		return dataAccess.insertArea(area);
 	}
 	
+	//insert service category
+	@RequestMapping(value="/rest_insert_service_category",method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE)
+	public Integer insert_Service_category(@RequestBody ServiceCategory serviceCategory){
+		return dataAccess.insertServiceCategory(serviceCategory);
+	}
+	
+	//insert services
+	@RequestMapping(value="/rest_insert_services",method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE)
+	public Integer insertServices(@RequestBody Services service){
+		return dataAccess.insertServices(service);
+	}
+	
 	//select all city
 	@RequestMapping(value="/rest_select_all_city",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<City>> sellectAllCity(){
 		
 		ArrayList<City> citys=dataAccess.selectCity();
 		return new ResponseEntity<ArrayList<City>>(citys,HttpStatus.OK);
+	}
+	
+	//select all Service Category
+	@RequestMapping(value="/rest_select_all_service_category",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<ServiceCategory>> selsectAllServiceCategory(){
+		return new ResponseEntity<ArrayList<ServiceCategory>>(dataAccess.selectServiceCategory(),HttpStatus.OK);
+	}
+	
+	//select area join city
+	@RequestMapping(value="/rest_select_areacity",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<AreaCity>> selectAllAreaCity(){
+		return new ResponseEntity<ArrayList<AreaCity>>(dataAccess.selectAreaCity(),HttpStatus.OK);
 	}
 }

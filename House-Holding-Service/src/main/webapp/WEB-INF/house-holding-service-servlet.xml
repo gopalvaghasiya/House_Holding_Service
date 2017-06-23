@@ -36,6 +36,12 @@
 	<property name="template" ref="jt"></property>  
 	</bean>
 	<!-- data-base-end -->
+	
+	<!-- File UploadIng -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
+	<!-- File Uploading End -->
+    
     <mvc:resources mapping="/resources/**" location="/resources/"/>
     <mvc:resources mapping="/webjars/**" location="/webjars/"/>
     

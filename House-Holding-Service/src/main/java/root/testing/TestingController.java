@@ -10,8 +10,16 @@ import root.model.Admin;
 
 //@Controller
 public class TestingController {
-
+	
 //	@Autowired
+//	ServiceDAO s;
+//	
+//	@RequestMapping(value="admin/demo",method=RequestMethod.GET)
+//	public void moveTocustomer(){
+//		s.selectAreaCity();
+//	}
+
+	//	@Autowired
 //	ServiceDAO s;
 //	
 //	@RequestMapping(value="/index",method=RequestMethod.GET)
