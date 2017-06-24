@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -106,34 +107,25 @@ public class AdminController {
 		return model;
 	}
 
+	// request for view customer page
 	@RequestMapping(value = "admin/customer", method = RequestMethod.GET)
-	public String moveTocustomer() {
-		return "admin/customer";
+	public ModelAndView moveTocustomer(HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+
+		model = new ModelAndView("admin/customer");
+		model.addObject("customers", getAllCustomer());
+		return model;
 	}
 
+	// request for view service provider
 	@RequestMapping(value = "admin/service_provider", method = RequestMethod.GET)
-	public String moveToserviceprovider() {
-		return "admin/service_provider";
-	}
-
-	@RequestMapping(value = "admin/service_categories", method = RequestMethod.GET)
-	public String moveToservice_category() {
-		return "admin/service_categories";
-	}
-
-	@RequestMapping(value = "admin/services", method = RequestMethod.GET)
-	public String moveToservices() {
-		return "admin/services";
-	}
-
-	@RequestMapping(value = "admin/city", method = RequestMethod.GET)
-	public String moveToCity() {
-		return "admin/city";
-	}
-
-	//request for view area page
-	@RequestMapping(value = "admin/area", method = RequestMethod.GET)
-	public ModelAndView moveToarea(HttpSession session) {
+	public ModelAndView moveToserviceprovider(HttpSession session) {
 		
 		ModelAndView model;
 		if (!isLoggeding(session)) {
@@ -141,8 +133,74 @@ public class AdminController {
 			model.addObject("message", "Please login");
 			return model;
 		}
-		model=new ModelAndView("admin/area");
-		model.addObject("areas",getAreaCity());
+
+		model = new ModelAndView("admin/service_provider");
+		model.addObject("providers", getAllServiceProvider());
+
+		return model;
+	}
+
+	// request for view Service category page
+	@RequestMapping(value = "admin/service_categories", method = RequestMethod.GET)
+	public ModelAndView moveToservice_category(HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+
+		model = new ModelAndView("admin/service_categories");
+		model.addObject("categories", getServiceCategory());
+
+		return model;
+	}
+
+	// request for view services page
+	@RequestMapping(value = "admin/services", method = RequestMethod.GET)
+	public ModelAndView moveToservices(HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+		model = new ModelAndView("admin/services");
+		model.addObject("services", getServicesJCategory());
+
+		return model;
+	}
+
+	// request for view city page
+	@RequestMapping(value = "admin/city", method = RequestMethod.GET)
+	public ModelAndView moveToCity(HttpSession session) {
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+
+		model = new ModelAndView("admin/city");
+		model.addObject("citys", getCitys());
+
+		return model;
+	}
+
+	// request for view area page
+	@RequestMapping(value = "admin/area", method = RequestMethod.GET)
+	public ModelAndView moveToarea(HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+		model = new ModelAndView("admin/area");
+		model.addObject("areas", getAreaCity());
 		return model;
 	}
 
@@ -241,7 +299,7 @@ public class AdminController {
 			model.addObject("response", "insersion failed");
 		}
 		model.addObject("categories", getServiceCategory());
-		
+
 		return model;
 	}
 
@@ -287,7 +345,7 @@ public class AdminController {
 		return model;
 	}
 
-	//request for add area page
+	// request for add area page
 	@RequestMapping(value = "admin/add_area", method = RequestMethod.GET)
 	public ModelAndView moveToasdd_area(HttpSession session) {
 
@@ -305,7 +363,7 @@ public class AdminController {
 		return model;
 	}
 
-	//insert are to Db
+	// insert are to Db
 	@RequestMapping(value = "admin/add_area", method = RequestMethod.POST)
 	public ModelAndView insertAreaToDb(@ModelAttribute("area") Area area, HttpSession session) {
 
@@ -331,7 +389,27 @@ public class AdminController {
 		return model;
 	}
 
-	//get cities
+//****************************EDIT Update*************************************//
+	
+	// edit area
+	@RequestMapping(value="admin/edit_area",method=RequestMethod.GET)
+	public ModelAndView editArea(@RequestParam int area_id,HttpSession session){
+		
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+		model=new ModelAndView("admin/city");
+		
+		return model; 
+	}
+
+	
+//************************GET DATA*********************************//
+	
+	// get cities
 	public City[] getCitys() {
 		RestTemplate restTemplate = new RestTemplate();
 		String url = "http://localhost:8080/rest_select_all_city";
@@ -342,19 +420,48 @@ public class AdminController {
 		return citys;
 	}
 
-	//get service cetegories
+	// get service cetegories
 	public ServiceCategory[] getServiceCategory() {
 		RestTemplate restTemplate = new RestTemplate();
 		String url = "http://localhost:8080/rest_select_all_service_category";
 
 		return restTemplate.getForEntity(url, ServiceCategory[].class).getBody();
 	}
-	
-	//get area join city
-	public AreaCity[] getAreaCity(){
+
+	// get area join city
+	public AreaCity[] getAreaCity() {
 		RestTemplate restTemplate = new RestTemplate();
 		String url = "http://localhost:8080/rest_select_areacity";
-		
+
 		return restTemplate.getForEntity(url, AreaCity[].class).getBody();
+	}
+	
+	// get area
+	public Area getArea(int id){
+		
+	}
+
+	// get services join Category
+	public ServicesJCategory[] getServicesJCategory() {
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://localhost:8080/rest_select_servicesjcategory";
+
+		return restTemplate.getForEntity(url, ServicesJCategory[].class).getBody();
+	}
+
+	// select all customer
+	public Customer[] getAllCustomer() {
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://localhost:8080/rest_select_allcustomer";
+
+		return restTemplate.getForEntity(url, Customer[].class).getBody();
+	}
+
+	// select all customer
+	public ServiceProvider[] getAllServiceProvider() {
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://localhost:8080/rest_select_allserviceprovider";
+
+		return restTemplate.getForEntity(url, ServiceProvider[].class).getBody();
 	}
 }

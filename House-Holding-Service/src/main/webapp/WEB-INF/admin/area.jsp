@@ -45,11 +45,11 @@
                                         </tr>
                                         <c:forEach items="${areas}" var="area">
                                         <tr>
-                                            <td>${area.areaId}</td>
-                                            <td>${area.cityName}</td>
-                                            <td>${area.areaName}</td>
+                                            <td>${area.area.areaId}</td>
+                                            <td>${area.city.cityName}</td>
+                                            <td>${area.area.areaName}</td>
                                             <td class="center">
-												<a class="btn btn-info" href="#">
+												<a class="btn btn-info" href="/admin/edit_area?area_id=${area.area.areaId}">
 									                <i class="glyphicon glyphicon-edit icon-white"></i>
 									                Edit
 									            </a>
