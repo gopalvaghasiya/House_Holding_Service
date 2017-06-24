@@ -1,12 +1,17 @@
 package root.testing;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
 
 import root.dao.ServiceDAO;
 import root.model.Admin;
+import root.model.AreaCity;
+import root.model.AreaCity;
 
 //@Controller
 public class TestingController {
@@ -16,7 +21,15 @@ public class TestingController {
 //	
 //	@RequestMapping(value="admin/demo",method=RequestMethod.GET)
 //	public void moveTocustomer(){
-//		s.selectAreaCity();
+//		RestTemplate restTemplate = new RestTemplate();
+//		String url = "http://localhost:8080/rest_select_areacitydemo";
+//		Demo[] d=restTemplate.getForEntity(url, Demo[].class).getBody();
+//		
+//		for(Demo t:d){
+//			System.out.println(t.getArea().getAreaId());
+//			System.out.println(t.getCity().getCityName());
+//			System.out.println(t.getArea().getAreaName());
+//		}
 //	}
 
 	//	@Autowired

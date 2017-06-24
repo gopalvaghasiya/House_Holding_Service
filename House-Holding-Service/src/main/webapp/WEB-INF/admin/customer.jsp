@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Home</title>
+        <title>Customer</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         
         <%@include file="include-css.jsp" %>
@@ -47,15 +47,18 @@
                                             <th>Status</th>
                                             
                                         </tr>
+                                        
+                                        <c:forEach items="${customers}" var="cust">
                                         <tr>
-                                            <td>183</td>
-                                            <td>John Doe</td>
-                                            <td>@Gmail.com</td>
-                                            <td>1836545646</td>
-                                            <td>sector 2</td>
-                                            <td>gnd</td>
-                                            <td><span class="label label-success">Active</span></td>
+                                            <td>${cust.customerId}</td>
+                                            <td>${cust.customerName}</td>
+                                            <td>${cust.email}</td>
+                                            <td>${cust.mobileNo}</td>
+                                            <td>${cust.area}</td>
+                                            <td>${cust.address}</td>
+                                            <td><span class="label label-success">${cust.status}</span></td>
                                         </tr>
+                                        </c:forEach>
                                         
                                     </table>
                                 </div><!-- /.box-body -->

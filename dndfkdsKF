@@ -1,0 +1,152 @@
+[33mcommit 840e8b5adf6ded4c105130ac8c7dd7bc29e92314[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Fri Jun 23 19:58:25 2017 +0530
+
+    view area, add area, add service category,add services
+
+[33mcommit 8760598cd1f9334f0ca594829e483d7b9473b650[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Fri Jun 23 11:50:55 2017 +0530
+
+    Mail Send success
+
+[33mcommit 04374c857a69fc18a20bfad7ba86ea47894a34f7[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Thu Jun 22 20:44:34 2017 +0530
+
+    Login, Logout, Add city, Add Area
+
+[33mcommit 8eb260110dcd03e974d15584f1394fdc118b1699[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Wed Jun 21 18:11:04 2017 +0530
+
+    work for loging om the way
+
+[33mcommit 0ea79d263d25beb2a810a075108d5e9e7bc79786[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Tue Jun 20 20:09:21 2017 +0530
+
+    setup at controller side
+
+[33mcommit 677b99c1cf91d76206c77e198a35f67e6792bee9[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Mon Jun 19 23:49:45 2017 +0530
+
+    testing
+
+[33mcommit 207e6160eebfc1143cfcbabdf22439e58e798222[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Sun Jun 18 23:34:55 2017 +0530
+
+    data base connection testing
+
+[33mcommit 48c1ce740cede6151b6fba28b9e495dc0267a4b1[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Sat Jun 17 22:26:12 2017 +0530
+
+    desine admin side continue
+
+[33mcommit 29a02fd36d0bb3ebb30e1f2352a8921106a28dbd[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Fri Jun 16 19:52:10 2017 +0530
+
+    designing on the way
+
+[33mcommit 5bece767d429740eb9de5f36b88c6e2cb5596863[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Thu Jun 15 17:26:35 2017 +0530
+
+    AJAX
+
+[33mcommit 4ccfea020a0718756ed76f36ad79fecf959bfcaa[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Mon Jun 12 11:08:43 2017 +0530
+
+    DD, DataBase
+
+[33mcommit 153c5f26cae7671d84a8c69bedb319e16619b907[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Mon Jun 12 10:55:38 2017 +0530
+
+    design - css
+
+[33mcommit 20c4a0122b1e9404d06ba080559f15fdb19e8353[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Thu Jun 8 19:18:03 2017 +0530
+
+    Rest API and MAIL sending success
+
+[33mcommit 513fb34e247ee3c681745eddce0ed3dd32932930[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Thu Jun 8 19:04:03 2017 +0530
+
+    1
+
+[33mcommit 900a62827ca88542c24c05b5d6ff51b6ec0e0de5[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Thu Jun 8 18:43:04 2017 +0530
+
+    mail
+
+[33mcommit 50bfd26c3694b20e0e1c91e69434c12ae2a15479[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Thu Jun 1 16:45:08 2017 +0530
+
+    h
+
+[33mcommit 3669b1ab02b3b97264e2d531bbeaf5a9568173b3[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Thu Jun 1 15:41:10 2017 +0530
+
+    spring testing
+
+[33mcommit 60068405c6c456b968dce44317534d3e6a8e3d88[m
+Merge: 21b9a73 ce052eb
+Author: Gopal Vaghasiya <gopalpv.sbccas1314@gmail.com>
+Date:   Thu Jun 1 15:33:01 2017 +0530
+
+    Merge pull request #1 from gopalvaghasiya/kakadiyahardik-patch-1
+    
+    README.md
+
+[33mcommit ce052eb555982a768bdc39d8f66e122f3f1a3332[m
+Author: Kakadiya Hardik <kakadiyahardik1996@gmail.com>
+Date:   Thu Jun 1 15:30:36 2017 +0530
+
+    Create README.md
+
+[33mcommit 21b9a73fc8e1f75b18edb327b9b2b4fba75000dd[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Tue May 30 18:44:46 2017 +0530
+
+    controller with anotaton
+
+[33mcommit 009cf4c435f1ac40a306a30915db19a46804914d[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Tue May 30 16:19:14 2017 +0530
+
+    spring without anotation and with extends httpservlet
+
+[33mcommit 3e647d4dfca70d24f67af291c9435796c6e3a9f9[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Tue May 23 11:06:33 2017 +0530
+
+    android_mockup_screen-1.0
+
+[33mcommit 1c4a8430713df9b56201711b05736f0a6ebea7e1[m
+Author: Hardik Kakadiya <kakadiyahardik1996@gmail.com>
+Date:   Mon May 22 21:39:52 2017 +0530
+
+    Screen Mockup_version 2.0
+
+[33mcommit 9af494e7bda3ddf4eb26064fa2e8331c98325395[m
+Author: gopal007 <gopal007>
+Date:   Mon May 22 19:42:17 2017 +0530
+
+    web mockup
+
+[33mcommit e80ae5afcb2b52e7278e79d5f9ff57feeb17422e[m
+Author: gopal007 <gopal007>
+Date:   Fri May 19 02:06:02 2017 +0530
+
+    First commit

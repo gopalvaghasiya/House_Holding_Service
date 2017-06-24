@@ -2,26 +2,20 @@ package root.model;
 
 public class AreaCity {
 	
-	private int areaId;
-	private String cityName;
-	private String areaName;
+	private Area area;
+	private City city;
 	
-	public int getAreaId() {
-		return areaId;
+	public Area getArea() {
+		return area;
 	}
-	public void setAreaId(int areaId) {
-		this.areaId = areaId;
+	public void setArea(Area area) {
+		this.area = area;
 	}
-	public String getCityName() {
-		return cityName;
+	public City getCity() {
+		return city;
 	}
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
+	public void setCity(City city) {
+		this.city = city;
 	}
-	public String getAreaName() {
-		return areaName;
-	}
-	public void setAreaName(String areaName) {
-		this.areaName = areaName;
-	}
+	
 }
