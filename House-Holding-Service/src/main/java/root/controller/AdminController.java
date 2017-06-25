@@ -126,7 +126,7 @@ public class AdminController {
 	// request for view service provider
 	@RequestMapping(value = "admin/service_provider", method = RequestMethod.GET)
 	public ModelAndView moveToserviceprovider(HttpSession session) {
-		
+
 		ModelAndView model;
 		if (!isLoggeding(session)) {
 			model = new ModelAndView("admin/login");
@@ -363,7 +363,7 @@ public class AdminController {
 		return model;
 	}
 
-	// insert are to Db
+	// insert area to Db
 	@RequestMapping(value = "admin/add_area", method = RequestMethod.POST)
 	public ModelAndView insertAreaToDb(@ModelAttribute("area") Area area, HttpSession session) {
 
@@ -389,26 +389,184 @@ public class AdminController {
 		return model;
 	}
 
-//****************************EDIT Update*************************************//
-	
-	// edit area
-	@RequestMapping(value="admin/edit_area",method=RequestMethod.GET)
-	public ModelAndView editArea(@RequestParam int area_id,HttpSession session){
-		
+	// ****************************EDIT
+	// Update*************************************//
+
+	// request edit area page
+	@RequestMapping(value = "admin/edit_area", method = RequestMethod.GET)
+	public ModelAndView editArea(@RequestParam int area_id, HttpSession session) {
+
 		ModelAndView model;
 		if (!isLoggeding(session)) {
 			model = new ModelAndView("admin/login");
 			model.addObject("message", "Please login");
 			return model;
 		}
-		model=new ModelAndView("admin/city");
-		
-		return model; 
+		model = new ModelAndView("admin/edit_area");
+		model.addObject("citys", getCitys());
+		model.addObject("area", getArea(area_id));
+
+		return model;
 	}
 
-	
-//************************GET DATA*********************************//
-	
+	// Update area
+	@RequestMapping(value = "admin/update_area", method = RequestMethod.POST)
+	public ModelAndView updateArea(@ModelAttribute("area") Area area, HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+		model = new ModelAndView("admin/area");
+
+		int res = updateArea(area);
+
+		model.addObject("areas", getAreaCity());
+		if (res == 1) {
+			model.addObject("response", "Update Success fully");
+		} else {
+			model.addObject("response", "Update failed");
+		}
+		return model;
+	}
+
+	// request edit city page
+	@RequestMapping(value = "admin/edit_city", method = RequestMethod.GET)
+	public ModelAndView editCity(@RequestParam int city_id, HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+		model = new ModelAndView("admin/edit_city");
+		model.addObject("city", getCity(city_id));
+
+		return model;
+	}
+
+	// Update City
+	@RequestMapping(value = "admin/update_city", method = RequestMethod.POST)
+	public ModelAndView updateCity(@ModelAttribute("city") City city, HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+		model = new ModelAndView("admin/city");
+
+		int res = updateCity(city);
+
+		model.addObject("citys", getCitys());
+		if (res == 1) {
+			model.addObject("response", "Update Success fully");
+		} else {
+			model.addObject("response", "Update failed");
+		}
+		return model;
+	}
+
+	// request edit Service page
+	@RequestMapping(value = "admin/edit_service", method = RequestMethod.GET)
+	public ModelAndView editService(@RequestParam int service_id, HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+		model = new ModelAndView("admin/edit_service");
+		model.addObject("service", getService(service_id));
+		model.addObject("categories", getServiceCategory());
+
+		return model;
+	}
+
+	// Update Service
+	@RequestMapping(value = "admin/update_service", method = RequestMethod.POST)
+	public ModelAndView updateService(@ModelAttribute("service") Services service, HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+		model = new ModelAndView("admin/services");
+
+		int res = updateServices(service);
+
+		model.addObject("services", getServicesJCategory());
+		if (res == 1) {
+			model.addObject("response", "Update Success fully");
+		} else {
+			model.addObject("response", "Update failed");
+		}
+		return model;
+	}
+
+	// request edit Service Category page
+	@RequestMapping(value = "admin/edit_sercate", method = RequestMethod.GET)
+	public ModelAndView editServiceCategory(@RequestParam int cate_id, HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+		model = new ModelAndView("admin/edit_service_category");
+		model.addObject("sercate", getServiceCategory(cate_id));
+
+		return model;
+	}
+
+	@RequestMapping(value = "admin/update_sercate", method = RequestMethod.POST)
+	public ModelAndView updateServiceCategory(@RequestParam CommonsMultipartFile file,@ModelAttribute("sercate") ServiceCategory sercate, HttpSession session) throws IOException {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+		model = new ModelAndView("admin/service_categories");
+		
+		//setting of image
+		String folder = "/resources/images/service_category/";
+		String path = session.getServletContext().getRealPath(folder);
+		String fileName = file.getOriginalFilename();
+
+		sercate.setCateImg(folder + fileName);
+
+		byte[] bytes = file.getBytes();
+
+		BufferedOutputStream bos = new BufferedOutputStream(
+				new FileOutputStream(new File(path + File.separator + fileName)));
+		bos.write(bytes);
+		bos.flush();
+		bos.close();
+		//end 
+		
+		int res = updateServiceCAtegory(sercate);
+
+		model.addObject("categories", getServiceCategory());
+		if (res == 1) {
+			model.addObject("response", "Update Success fully");
+		} else {
+			model.addObject("response", "Update failed");
+		}
+		return model;
+	}
+
+	// ************************GET DATA*********************************//
+
 	// get cities
 	public City[] getCitys() {
 		RestTemplate restTemplate = new RestTemplate();
@@ -435,11 +593,6 @@ public class AdminController {
 
 		return restTemplate.getForEntity(url, AreaCity[].class).getBody();
 	}
-	
-	// get area
-	public Area getArea(int id){
-		
-	}
 
 	// get services join Category
 	public ServicesJCategory[] getServicesJCategory() {
@@ -463,5 +616,84 @@ public class AdminController {
 		String url = "http://localhost:8080/rest_select_allserviceprovider";
 
 		return restTemplate.getForEntity(url, ServiceProvider[].class).getBody();
+	}
+
+	// **************get data by id********************
+
+	// get area by id
+	public Area getArea(int id) {
+		RestTemplate restT = new RestTemplate();
+		String url = "http://localhost:8080/rest_select_area_by_id/{area_id}";
+
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("area_id", id);
+		return restT.getForEntity(url, Area.class, map).getBody();
+	}
+
+	// get city by id
+	public City getCity(int id) {
+		RestTemplate restT = new RestTemplate();
+		String url = "http://localhost:8080/rest_select_city_by_id/{city_id}";
+
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("city_id", id);
+		return restT.getForEntity(url, City.class, map).getBody();
+	}
+
+	// get Service by id
+	public Services getService(int id) {
+		RestTemplate restT = new RestTemplate();
+		String url = "http://localhost:8080/rest_select_service_by_id/{service_id}";
+
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("service_id", id);
+		return restT.getForEntity(url, Services.class, map).getBody();
+	}
+
+	// get Service category by id
+	public ServiceCategory getServiceCategory(int id) {
+		RestTemplate restT = new RestTemplate();
+		String url = "http://localhost:8080/rest_select_service_category_by_id/{sercate_id}";
+
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("sercate_id", id);
+		return restT.getForEntity(url, ServiceCategory.class, map).getBody();
+	}
+
+	// ******************UPdate*******************************
+	// update area
+	public int updateArea(Area area) {
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://localhost:8080/rest_update_area";
+
+		return restTemplate.postForObject(url, area, Integer.class);
+
+	}
+
+	// update City
+	public int updateCity(City city) {
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://localhost:8080/rest_update_city";
+
+		return restTemplate.postForObject(url, city, Integer.class);
+
+	}
+
+	// update Services
+	public int updateServices(Services service) {
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://localhost:8080/rest_update_services";
+
+		return restTemplate.postForObject(url, service, Integer.class);
+
+	}
+
+	// update Service category
+	public int updateServiceCAtegory(ServiceCategory sercate) {
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://localhost:8080/rest_update_service_category";
+
+		return restTemplate.postForObject(url, sercate, Integer.class);
+
 	}
 }

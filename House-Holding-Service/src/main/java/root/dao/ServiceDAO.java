@@ -276,7 +276,9 @@ public class ServiceDAO {
 		});
 	}
 
-	// select singlr area by id
+	// ***************************Select by
+	// id**************************************
+	// select single area by id
 	public Area selectArea(int id) {
 		String sql = "select * from area where area_id=?";
 
@@ -301,5 +303,144 @@ public class ServiceDAO {
 		}
 
 		);
+	}
+
+	// select single City by id
+	public City selectCity(int id) {
+		String sql = "select * from city where city_id=?";
+
+		return template.query(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, id);
+			}
+		}, new ResultSetExtractor<City>() {
+			public City extractData(ResultSet rs) throws SQLException {
+				City c = new City();
+
+				if (rs.next()) {
+					c.setCityId(rs.getInt(1));
+					c.setCityName(rs.getString(2));
+
+					return c;
+				}
+				return null;
+			}
+		});
+	}
+
+	// select service by id
+	public Services selectService(int id) {
+		String sql = "select * from services where service_id=?";
+
+		return template.query(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, id);
+			}
+		}, new ResultSetExtractor<Services>() {
+			public Services extractData(ResultSet rs) throws SQLException {
+				Services s = new Services();
+
+				if (rs.next()) {
+					s.setServiceId(rs.getInt(1));
+					s.setServiceCateId(rs.getInt(2));
+					s.setServiceName(rs.getString(3));
+					s.setServiceDesc(rs.getString(4));
+
+					return s;
+				}
+				return null;
+			}
+		});
+	}
+
+	// select service category by id
+	public ServiceCategory selectServiceCategory(int id) {
+		String sql = "select * from service_category where service_category_id=?";
+
+		return template.query(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, id);
+			}
+		}, new ResultSetExtractor<ServiceCategory>() {
+			public ServiceCategory extractData(ResultSet rs) throws SQLException {
+				ServiceCategory s = new ServiceCategory();
+
+				if (rs.next()) {
+					s.setCateId(rs.getInt(1));
+					s.setCateName(rs.getString(2));
+					s.setCateDesc(rs.getString(3));
+					s.setCateImg(rs.getString(4));
+
+					return s;
+				}
+				return null;
+			}
+		});
+	}
+
+	// ******************************UPDATE*******************************
+
+	// update area
+	public int updateArea(Area area) {
+
+		String sql = "update area set city_id=?,area_name=? where area_id=?";
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, area.getCityId());
+				ps.setString(2, area.getAreaName());
+				ps.setInt(3, area.getAreaId());
+			}
+		});
+	}
+
+	// Update city
+	public int updateCity(City city) {
+
+		String sql = "update city set city_name=? where city_id=?";
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, city.getCityName());
+				ps.setInt(2, city.getCityId());
+			}
+		});
+	}
+
+	// Update services
+	public int updateServices(Services service) {
+
+		String sql = "update services set service_category_id=?,service_name=?,service_description=? where service_id=?";
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, service.getServiceCateId());
+				ps.setString(2, service.getServiceName());
+				ps.setString(3, service.getServiceDesc());
+				ps.setInt(4, service.getServiceId());
+			}
+		});
+	}
+
+	// Update service category 
+	public int updateServiceCategory(ServiceCategory sercate) {
+
+		String sql = "update service_category set category_name=?,category_description=?,category_image=? where service_category_id=?";
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, sercate.getCateName());
+				ps.setString(2, sercate.getCateDesc());
+				ps.setString(3, sercate.getCateImg());
+				ps.setInt(4, sercate.getCateId());
+			}
+		});
 	}
 }

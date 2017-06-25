@@ -46,6 +46,33 @@ public class HouseHoldingRestAPI {
 		return dataAccess.insertArea(area);
 	}
 
+	// **************************Update***********************************************
+	// Update area
+	@RequestMapping(value = "/rest_update_area", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Integer updateArea(@RequestBody Area area) {
+		return dataAccess.updateArea(area);
+	}
+
+	// Update area
+	@RequestMapping(value = "/rest_update_city", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Integer updateCity(@RequestBody City city) {
+		return dataAccess.updateCity(city);
+	}
+
+	// Update services
+	@RequestMapping(value = "/rest_update_services", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Integer updateServices(@RequestBody Services service) {
+		return dataAccess.updateServices(service);
+	}
+
+	// Update service category
+	@RequestMapping(value = "/rest_update_service_category", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Integer updateServices(@RequestBody ServiceCategory sercate) {
+		return dataAccess.updateServiceCategory(sercate);
+	}
+
+	// *********************Insert**************************************************
+
 	// insert service category
 	@RequestMapping(value = "/rest_insert_service_category", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Integer insert_Service_category(@RequestBody ServiceCategory serviceCategory) {
@@ -95,10 +122,31 @@ public class HouseHoldingRestAPI {
 	public ResponseEntity<ArrayList<ServiceProvider>> selectAllServiceProvider() {
 		return new ResponseEntity<ArrayList<ServiceProvider>>(dataAccess.selectAllServiceProvider(), HttpStatus.OK);
 	}
-	
+
+	// *****************************************Select by
+	// id*****************************/
+
 	// select area by area id
-	@RequestMapping(value="rest_select_area_by_id",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Area> selectAreById(@PathVariable("area_id") int area_id){
-		return new ResponseEntity<Area>(dataAccess.selectArea(area_id),HttpStatus.OK);
+	@RequestMapping(value = "rest_select_area_by_id/{area_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Area> selectAreById(@PathVariable("area_id") int area_id) {
+		return new ResponseEntity<Area>(dataAccess.selectArea(area_id), HttpStatus.OK);
+	}
+
+	// select City by city id
+	@RequestMapping(value = "rest_select_city_by_id/{city_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<City> selectCityById(@PathVariable("city_id") int city_id) {
+		return new ResponseEntity<City>(dataAccess.selectCity(city_id), HttpStatus.OK);
+	}
+
+	// select Service by id
+	@RequestMapping(value = "rest_select_service_by_id/{service_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Services> selectServiceById(@PathVariable("service_id") int service_id) {
+		return new ResponseEntity<Services>(dataAccess.selectService(service_id), HttpStatus.OK);
+	}
+
+	// select Service category by id
+	@RequestMapping(value = "rest_select_service_category_by_id/{sercate_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ServiceCategory> selectServiceCategoryById(@PathVariable("sercate_id") int sercate_id) {
+		return new ResponseEntity<ServiceCategory>(dataAccess.selectServiceCategory(sercate_id), HttpStatus.OK);
 	}
 }

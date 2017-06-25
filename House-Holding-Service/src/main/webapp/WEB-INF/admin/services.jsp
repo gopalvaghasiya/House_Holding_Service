@@ -33,7 +33,7 @@
                             <div class="box">
                                 <div class="box-header">
                                     <h3 class="box-title">Services</h3>
-                                    
+                                    <h4>${response}</h4>
                                 </div><!-- /.box-header -->
                                 <div class="box-body table-responsive no-padding">
                                     <table class="table table-hover">
@@ -52,7 +52,7 @@
                                             <td>${service.services.serviceName}</td>
                                             <td>${service.services.serviceDesc}</td>
                                             <td class="center">
-												<a class="btn btn-info" href="#">
+												<a class="btn btn-info" href="/admin/edit_service?service_id=${service.services.serviceId}">
 									                <i class="glyphicon glyphicon-edit icon-white"></i>
 									                Edit
 									            </a>

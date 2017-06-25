@@ -33,7 +33,7 @@
                             <div class="box">
                                 <div class="box-header">
                                     <h3 class="box-title">Service Categories</h3>
-                                    
+                                    <h4>${response}</h4>
                                 </div><!-- /.box-header -->
                                 <div class="box-body table-responsive no-padding">
                                     <table class="table table-hover">
@@ -52,7 +52,7 @@
                                             <td>${cate.cateDesc}</td>
                                             <td><img src="${cate.cateImg}" height="40px" width="50px" /></td>
                                             <td class="center">
-												<a class="btn btn-info" href="#">
+												<a class="btn btn-info" href="/admin/edit_sercate?cate_id=${cate.cateId}">
 									                <i class="glyphicon glyphicon-edit icon-white"></i>
 									                Edit
 									            </a>
