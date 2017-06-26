@@ -19,6 +19,7 @@ import root.model.*;
 @RestController
 public class HouseHoldingRestAPI {
 
+	private static final String[] APPLICATION_JSON_VALUE = null;
 	@Autowired
 	ServiceDAO dataAccess;
 
@@ -71,6 +72,13 @@ public class HouseHoldingRestAPI {
 		return dataAccess.updateServiceCategory(sercate);
 	}
 
+//***********************PUT Request************************************************
+	//update user status
+	@RequestMapping(value="/rest_update_user_status/{user_type}",method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void updateUserStatus(@PathVariable("user_type") int user_type,@RequestBody Customer c){
+		 dataAccess.updateUserStatus(user_type,c);
+	}
+	
 	// *********************Insert**************************************************
 
 	// insert service category
@@ -148,5 +156,31 @@ public class HouseHoldingRestAPI {
 	@RequestMapping(value = "rest_select_service_category_by_id/{sercate_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ServiceCategory> selectServiceCategoryById(@PathVariable("sercate_id") int sercate_id) {
 		return new ResponseEntity<ServiceCategory>(dataAccess.selectServiceCategory(sercate_id), HttpStatus.OK);
+	}
+
+	// ****************************************DELETE*********************************//
+
+	// delete area by id
+	@RequestMapping(value = "rest_delete_area_by_id/{area_id}", method = RequestMethod.DELETE)
+	public Integer deleteArea(@PathVariable("area_id") int area_id) {
+		return dataAccess.deleteArea(area_id);
+	}
+
+	// delete city by id
+	@RequestMapping(value = "rest_delete_city_by_id/{city_id}", method = RequestMethod.DELETE)
+	public Integer deleteCity(@PathVariable("city_id") int city_id) {
+		return dataAccess.deleteCity(city_id);
+	}
+
+	// delete Service by id
+	@RequestMapping(value = "rest_delete_service_by_id/{service_id}", method = RequestMethod.DELETE)
+	public Integer deleteService(@PathVariable("service_id") int service_id) {
+		return dataAccess.deleteService(service_id);
+	}
+
+	// delete Service category by id
+	@RequestMapping(value = "rest_delete_service_category_by_id/{cate_id}", method = RequestMethod.DELETE)
+	public Integer deleteServiceCategory(@PathVariable("cate_id") int cate_id) {
+		return dataAccess.deleteServiceCategory(cate_id);
 	}
 }

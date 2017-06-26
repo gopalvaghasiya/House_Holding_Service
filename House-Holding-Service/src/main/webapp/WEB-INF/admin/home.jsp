@@ -9,8 +9,7 @@
         <meta charset="UTF-8">
         <title>Home</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        
-        <%@include file="include-css.jsp" %>
+         <%@include file="include-css.jsp" %>
     </head>
     <body class="skin-blue">
         <!-- header logo: style can be found in header.less -->
@@ -28,7 +27,7 @@
                 
                 <!-- Main content -->
                 <section class="content">
-                
+					
                	</section>
            </aside>
             <!-- /.right-side -->
@@ -38,5 +37,7 @@
 
 
         <%@include file="footer.jsp" %>
+        
+        
     </body>
 </html>

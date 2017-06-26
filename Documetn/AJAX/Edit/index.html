@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="design.css">
+    <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+
+    <script type="text/javascript">
+    	
+    	var table;
+		$(document).ready( function () {
+		 table  = $('#example').DataTable();
+		} );
+
+var btn=document.getElementById("btnEdit");
+
+		btn.addEventListener("click",function(){
+		  console.log(table);
+		  var row  = $(this).parents('tr')[0];
+		  console.log( table.row( row ).data() );
+		  
+		});
+
+    </script>
+
+    <meta charset=utf-8 />
+    <title>DataTables - JS Bin</title>
+  </head>
+  <body>
+    <div class="container">
+      <table id="example" class="display nowrap" width="100%">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Start date</th>
+            <th>Salary</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tfoot>
+          <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Start date</th>
+            <th>Salary</th>
+            <td><button id="btnEdit">Edit</td>
+          </tr>
+        </tfoot>
+
+        <tbody>
+          <tr>
+            <td>Tiger Nixon</td>
+            <td>System Architect</td>
+            <td>Edinburgh</td>
+            <td>61</td>
+            <td>2011/04/25</td>
+            <td>$3,120</td>
+             <td><button id="btnEdit">Edit</td>
+          </tr>
+          <tr>
+            <td>Jonas Alexander</td>
+            <td>Developer</td>
+            <td>San Francisco</td>
+            <td>30</td>
+            <td>2010/07/14</td>
+            <td>$5,300</td>
+             <td><button id="btnEdit">Edit</td>
+          </tr>
+          <tr>
+            <td>Shad Decker</td>
+            <td>Regional Director</td>
+            <td>Edinburgh</td>
+            <td>51</td>
+            <td>2008/11/13</td>
+            <td>$5,300</td>
+             <td><button id="btnEdit">Edit</td>
+          </tr>
+          <tr>
+            <td>Michael Bruce</td>
+            <td>Javascript Developer</td>
+            <td>Edinburgh</td>
+            <td>29</td>
+            <td>2011/06/27</td>
+            <td>$4,080</td>
+             <td><button id="btnEdit">Edit</td>
+          </tr>
+          <tr>
+            <td>Donna Snider</td>
+            <td>System Architect</td>
+            <td>New York</td>
+            <td>27</td>
+            <td>2011/01/25</td>
+            <td>$3,120</td>
+             <td><button id="btnEdit">Edit</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
