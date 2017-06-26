@@ -53,7 +53,7 @@
 									                <i class="glyphicon glyphicon-edit icon-white"></i>
 									                Edit
 									            </a>
-									            <a class="btn btn-danger" href="#">
+									            <a class="btn btn-danger" href="/admin/delete_area?area_id=${area.area.areaId}">
 									                <i class="glyphicon glyphicon-trash icon-white"></i>
 									                Delete
 									            </a>

@@ -119,6 +119,7 @@ public class AdminController {
 		}
 
 		model = new ModelAndView("admin/customer");
+		
 		model.addObject("customers", getAllCustomer());
 		return model;
 	}
@@ -136,7 +137,7 @@ public class AdminController {
 
 		model = new ModelAndView("admin/service_provider");
 		model.addObject("providers", getAllServiceProvider());
-
+		
 		return model;
 	}
 
@@ -527,8 +528,10 @@ public class AdminController {
 		return model;
 	}
 
+	// update servide category
 	@RequestMapping(value = "admin/update_sercate", method = RequestMethod.POST)
-	public ModelAndView updateServiceCategory(@RequestParam CommonsMultipartFile file,@ModelAttribute("sercate") ServiceCategory sercate, HttpSession session) throws IOException {
+	public ModelAndView updateServiceCategory(@RequestParam CommonsMultipartFile file,
+			@ModelAttribute("sercate") ServiceCategory sercate, HttpSession session) throws IOException {
 
 		ModelAndView model;
 		if (!isLoggeding(session)) {
@@ -537,8 +540,8 @@ public class AdminController {
 			return model;
 		}
 		model = new ModelAndView("admin/service_categories");
-		
-		//setting of image
+
+		// setting of image
 		String folder = "/resources/images/service_category/";
 		String path = session.getServletContext().getRealPath(folder);
 		String fileName = file.getOriginalFilename();
@@ -552,8 +555,8 @@ public class AdminController {
 		bos.write(bytes);
 		bos.flush();
 		bos.close();
-		//end 
-		
+		// end
+
 		int res = updateServiceCAtegory(sercate);
 
 		model.addObject("categories", getServiceCategory());
@@ -562,6 +565,105 @@ public class AdminController {
 		} else {
 			model.addObject("response", "Update failed");
 		}
+		return model;
+	}
+
+	//update user status
+	@RequestMapping(value = "admin/change_user_status", method = RequestMethod.GET)
+	public ModelAndView changeUserStatus(@RequestParam int user_id,@RequestParam int status_id,@RequestParam int user_type, HttpSession session) {
+		
+		Customer c=new Customer();
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+		
+		if(user_type==1)
+			model = new ModelAndView("redirect:/admin/customer");
+		else
+			model = new ModelAndView("redirect:/admin/service_provider");
+		
+		status_id=status_id%2;
+		status_id++;
+		c.setCustomerId(user_id);
+		c.setStatus(""+status_id);
+		
+		updateUserStatus(user_type, c);
+		return model;
+	}	
+	
+	// **********************************DELETE****************************//
+
+	@RequestMapping(value = "admin/delete_area", method = RequestMethod.GET)
+	public ModelAndView deleteArea(@RequestParam int area_id, HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+
+		// deleteArea(area_id);
+
+		model = new ModelAndView("redirect:/admin/area");
+
+		return model;
+	}
+
+	// delete city by id
+	@RequestMapping(value = "admin/delete_city", method = RequestMethod.GET)
+	public ModelAndView deleteCity(@RequestParam int city_id, HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+
+		deleteCity(city_id);
+
+		model = new ModelAndView("redirect:/admin/city");
+
+		return model;
+	}
+
+	// delete service by id
+	@RequestMapping(value = "admin/delete_service", method = RequestMethod.GET)
+	public ModelAndView deleteService(@RequestParam int service_id, HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+
+		deleteService(service_id);
+
+		model = new ModelAndView("redirect:/admin/services");
+
+		return model;
+	}
+
+	// delete service category by id
+	@RequestMapping(value = "admin/delete_sercate", method = RequestMethod.GET)
+	public ModelAndView deleteServiceCategory(@RequestParam int cate_id, HttpSession session) {
+
+		ModelAndView model;
+		if (!isLoggeding(session)) {
+			model = new ModelAndView("admin/login");
+			model.addObject("message", "Please login");
+			return model;
+		}
+
+		deleteServiceCategory(cate_id);
+
+		model = new ModelAndView("redirect:/admin/service_categories");
+
 		return model;
 	}
 
@@ -610,7 +712,7 @@ public class AdminController {
 		return restTemplate.getForEntity(url, Customer[].class).getBody();
 	}
 
-	// select all customer
+	// select all service provider
 	public ServiceProvider[] getAllServiceProvider() {
 		RestTemplate restTemplate = new RestTemplate();
 		String url = "http://localhost:8080/rest_select_allserviceprovider";
@@ -695,5 +797,62 @@ public class AdminController {
 
 		return restTemplate.postForObject(url, sercate, Integer.class);
 
+	}
+	
+	//update user status
+	public void updateUserStatus(int user_type,Customer cust){
+		RestTemplate rest=new RestTemplate();
+		String url="http://localhost:8080//rest_update_user_status/{user_type}";
+
+		Map<String,Integer> map=new HashMap<>();
+		map.put("user_type", user_type);
+		
+		rest.put(url, cust, map);;
+	}
+
+	// ************************DELETE**********************************
+
+	// delete area
+	public void deleteArea(int area_id) {
+		RestTemplate resT = new RestTemplate();
+		String url = "http://localhost:8080/rest_delete_area_by_id/{area_id}";
+
+		Map<String, Integer> map = new HashMap<>();
+		map.put("area_id", area_id);
+
+		resT.delete(url, map);
+	}
+
+	// delte city
+	public void deleteCity(int city_id) {
+		RestTemplate resT = new RestTemplate();
+		String url = "http://localhost:8080/rest_delete_city_by_id/{city_id}";
+
+		Map<String, Integer> map = new HashMap<>();
+		map.put("city_id", city_id);
+
+		resT.delete(url, map);
+	}
+
+	// delte service
+	public void deleteService(int service_id) {
+		RestTemplate resT = new RestTemplate();
+		String url = "http://localhost:8080/rest_delete_service_by_id/{service_id}";
+
+		Map<String, Integer> map = new HashMap<>();
+		map.put("service_id", service_id);
+
+		resT.delete(url, map);
+	}
+
+	// delte service category
+	public void deleteServiceCategory(int cate_id) {
+		RestTemplate resT = new RestTemplate();
+		String url = "http://localhost:8080/rest_delete_service_category_by_id/{cate_id}";
+
+		Map<String, Integer> map = new HashMap<>();
+		map.put("cate_id", cate_id);
+
+		resT.delete(url, map);
 	}
 }

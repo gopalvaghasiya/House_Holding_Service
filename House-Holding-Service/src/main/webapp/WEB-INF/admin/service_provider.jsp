@@ -56,7 +56,19 @@
                                             <td>${provid.mobileNo}</td>
                                             <td>${provid.area}</td>
                                             <td>${provid.address}</td>
-                                            <td><span class="label label-success">${provid.status}</span></td>
+                                            
+                                           	<c:choose>
+											    <c:when test="${provid.status==1}">
+											        <td><a href="/admin/change_user_status?status_id=${provid.status}&user_id=${provid.serviceProviderId}&user_type=2">
+											        
+											        <span class="label label-success">Active</span></a></td>
+											    </c:when>    
+											    <c:otherwise>
+											        <td><a href="/admin/change_user_status?status_id=${provid.status}&user_id=${provid.serviceProviderId}&user_type=2">
+											        <span class="label label-danger">Block</span></a></td>
+											    </c:otherwise>
+											</c:choose>
+                                          
                                         </tr>
                                         </c:forEach>
                                         

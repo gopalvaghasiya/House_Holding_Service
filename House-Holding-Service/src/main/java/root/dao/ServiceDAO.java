@@ -222,7 +222,7 @@ public class ServiceDAO {
 
 	// select customer - join
 	public ArrayList<Customer> selectAllCustomer() {
-		String sql = "select customer.customer_id,customer.customer_name,customer.customer_email,area.area_name,customer.address,user_status.status_name,customer.customer_mobileno"
+		String sql = "select customer.customer_id,customer.customer_name,customer.customer_email,area.area_name,customer.address,user_status.user_status_id,customer.customer_mobileno"
 				+ " from customer join area on customer.area_id=area.area_id join user_status on customer.user_status_id=user_status.user_status_id";
 
 		return template.query(sql, new ResultSetExtractor<ArrayList<Customer>>() {
@@ -250,8 +250,8 @@ public class ServiceDAO {
 
 	// select Service Provider - join
 	public ArrayList<ServiceProvider> selectAllServiceProvider() {
-		String sql = "select service_provider.service_provider_id,service_provider.service_provider_name,service_provider.service_provider_email,area.area_name,service_provider.address,user_status.status_name,service_provider.service_provider_mobileno"
-				+ " from service_provider join area on service_provider.area_id=area.area_id join user_status on service_provider.user_status_id=user_status.user_status_id";
+		String sql = "select service_provider.service_provider_id,service_provider.service_provider_name,service_provider.service_provider_email,area.area_name,service_provider.address,user_status.user_status_id,service_provider.service_provider_mobileno"
+				+ " from service_provider left join area on service_provider.area_id=area.area_id join user_status on service_provider.user_status_id=user_status.user_status_id";
 
 		return template.query(sql, new ResultSetExtractor<ArrayList<ServiceProvider>>() {
 
@@ -428,7 +428,7 @@ public class ServiceDAO {
 		});
 	}
 
-	// Update service category 
+	// Update service category
 	public int updateServiceCategory(ServiceCategory sercate) {
 
 		String sql = "update service_category set category_name=?,category_description=?,category_image=? where service_category_id=?";
@@ -440,6 +440,77 @@ public class ServiceDAO {
 				ps.setString(2, sercate.getCateDesc());
 				ps.setString(3, sercate.getCateImg());
 				ps.setInt(4, sercate.getCateId());
+			}
+		});
+	}
+	
+	//Update user status
+	public int updateUserStatus(int user_type,Customer cust){
+		String sql="";
+		
+		if(user_type==1){
+			sql="update customer set user_status_id=? where customer_id=?";
+		}
+		else if(user_type==2){
+			sql="update service_provider set user_status_id=? where service_provider_id=?";
+		}
+		
+		return template.update(sql,new PreparedStatementSetter(){
+			
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setInt(1,Integer.parseInt(cust.getStatus()));
+				ps.setInt(2,cust.getCustomerId());
+			}
+		});
+	}
+
+	// ***********************DELETE***********************************//
+
+	// delete area
+	public int deleteArea(int area_id) {
+
+		String sql = "delete from area where area_id=?";
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, area_id);
+			}
+		});
+	}
+
+	// delete city
+	public int deleteCity(int city_id) {
+		String sql = "delete from city where city_id=?";
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, city_id);
+			}
+		});
+	}
+
+	// delete services
+	public int deleteService(int service_id) {
+		String sql = "delete from services where service_id=?";
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, service_id);
+			}
+		});
+	}
+
+	// delete service category
+	public int deleteServiceCategory(int service_category_id) {
+		String sql = "delete from service_category where service_category_id=?";
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, service_category_id);
 			}
 		});
 	}

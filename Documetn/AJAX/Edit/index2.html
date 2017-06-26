@@ -1,0 +1,58 @@
+
+
+
+
+<!-- begin snippet: js hide: false console: true babel: false -->
+
+<!-- language: lang-js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+
+
+    $('table button').click(function() {
+      console.log('hhhh');
+  var tr = $(this).closest('tr');
+  var id = tr.children('td:eq(0)').text(); //get the text from first col of current row
+  console.log(id); //you'll get the actual ids here
+
+  
+  });
+});
+</script>
+    <table>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Hans</td>
+        <td>Jahnsen</td>
+        <td>
+          <button >Edit</button>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Robert</td>
+        <td>Boylstat</td>
+        <td>
+          <button>Edit</button>
+        </td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Jim</td>
+        <td>Alexi</td>
+        <td>
+          <button>Edit</button>
+        </td>
+      </tr>
+    </table>
+
+<!-- end snippet -->
+
