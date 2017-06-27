@@ -460,8 +460,8 @@ public class AdminController {
 			return model;
 		}
 		model = new ModelAndView("admin/city");
-
-		int res = updateCity(city);
+		
+		int res =updateCity(city);
 
 		model.addObject("citys", getCitys());
 		if (res == 1) {
