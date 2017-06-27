@@ -57,6 +57,9 @@
 									                <i class="glyphicon glyphicon-trash icon-white"></i>
 									                Delete
 									            </a>
+									            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+													<i class="glyphicon glyphicon-edit icon-white"></i> Edit
+												</button>
 									        </td>
                                         </tr>
                                         </c:forEach>
@@ -70,9 +73,137 @@
             <!-- /.right-side -->
         </div><!-- ./wrapper -->
         
+        <!-- Test start -->
+
+
+	<div class="container">
+
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<form method="post" action="/admin/update_city">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Edit Area</h4>
+						</div>
+						<div class="modal-body" id="divid">
+
+							<div class="form-group">
+								<label>Select City</label>
+								
+								<div id="cities">
+								</div>	
+							</div>
+							<div class="form-group">
+								<label for="exampleInputEmail1">Area Name</label>
+								 <input type="text" name="areaName" class="form-control"
+									id="areaName" value="" placeholder="Area name" required>
+							</div>
+							<input type="hidden" value="" name="areaId"/>
+							
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary">Update</button>
+							</div>
+							<input type="hidden" value="" name="areaId" id="areaId"/>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+
+	<!-- Test End -->
         <!-- add new calendar event modal -->
 
 
         <%@include file="footer.jsp" %>
-    </body>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+	var cities=document.getElementById("cities");
+		$(document)
+				.ready(
+						function() {
+
+							$('table button')
+									.click(
+											function() {
+												
+												document.getElementById("cities").innerHTML = ""
+												
+												var tr = $(this).closest('tr');
+												var id = tr
+														.children('td:eq(0)')
+														.text(); //get the text from first col of current row
+														
+												var ct = new XMLHttpRequest();
+												var area=new XMLHttpRequest();
+												
+												
+
+												area.open('GET','http://localhost:8080/rest_select_area_by_id/'+id);
+												var cid=0;
+												area.onload = function(){
+													var area_data=JSON.parse(area.responseText);
+													
+													ct.open('GET','http://localhost:8080/rest_select_all_city');
+													ct.onload = function() {
+														var data = JSON
+																.parse(ct.responseText);
+			
+														setSelect(area_data.cityId,data);
+														
+														
+													};
+				
+													ct.send();
+												};
+												area.send();
+												
+												/* console.log(cid);
+												ct.open('GET','http://localhost:8080/rest_select_all_city');
+												ct.onload = function() {
+													var data = JSON
+															.parse(ct.responseText);
+		
+													setSelect(1,data);
+													
+													// content.insertAdjacentHTML('beforeend',string);
+												};
+			
+												ct.send(); */
+												
+												
+												
+											});
+						});
+		
+		function setSelect(id,data){
+			console.log(id);
+			var str="";
+			
+			str+="<select class=form-control name=cityId id=cityId required>"
+			+"<option selected disabled value=>---select---</option>";
+			
+			for(i=0;i<data.length;i++){
+				str+="<option value="+data[i].cityId+">"+data[i].cityName+"</option>";
+			}
+			str+="</select>";
+			
+			cities.insertAdjacentHTML('beforeend',str);
+		}
+	</script>
+</body>
 </html>

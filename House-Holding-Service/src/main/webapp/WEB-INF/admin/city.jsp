@@ -47,15 +47,16 @@
 								<tr>
 									<td>${city.cityId}</td>
 									<td>${city.cityName}</td>
-									<td class="center"><a class="btn btn-info"
-										href="/admin/edit_city?city_id=${city.cityId}"> <i
-											class="glyphicon glyphicon-edit icon-white"></i> Edit
-									</a> <a class="btn btn-danger"
+									<td class="center">
+									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+											<i class="glyphicon glyphicon-edit icon-white"></i> Edit
+									</button>
+									<a class="btn btn-danger"
 										href="/admin/delete_city?city_id=${city.cityId}"> <i
 											class="glyphicon glyphicon-trash icon-white"></i> Delete
 									</a>
-										<button type="button" class="btn btn-info btn-lg"
-											data-toggle="modal" data-target="#myModal">Edit</button></td>
+										
+									</td>
 
 								</tr>
 							</c:forEach>
@@ -81,28 +82,29 @@
 			<div class="modal-dialog">
 
 				<!-- Modal content-->
-				<form method="get" action="/admin/home">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Edit City</h4>
-					</div>
-					<div class="modal-body" id="divid">
-						
-						<div class="form-group">
-							<label >City Name</label>
-							 <input	type="text" name="cityName" id="cityName" class="form-control" placeholder="City name">
-							 <input type="hidden" name="cityId"/>
+				<form method="post" action="/admin/update_city">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Edit City</h4>
 						</div>
-						<p>Some text in the modal.</p>
+						<div class="modal-body" id="divid">
+
+							<div class="form-group">
+								<label>City Name</label> <input type="text" name="cityName"
+									id="cityName" class="form-control" placeholder="City name">
+								<input type="hidden" name="cityId" id="cityId" />
+							</div>
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary">Update</button>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+						</div>
+
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
-					<div class="box-footer">
-						<button type="submit" class="btn btn-primary">Add</button>
-					</div>
-				</div>
 				</form>
 			</div>
 		</div>
@@ -116,38 +118,37 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function() {
+		$(document).ready(
+						function() {
 
-			
-			$('table button').click(function() {
+							$('table button')
+									.click(
+											function() {
 
-				var tr = $(this).closest('tr');
-				var id = tr.children('td:eq(0)').text(); //get the text from first col of current row
-				var name = tr.children('td:eq(1)').text();
-				document.getElementById("cityName").value = name;
-				$("#divid").find("p").html(id);
-				
-				var details = new XMLHttpRequest();
-				var content=document.getElementById("divid");
-				details.open('GET','https://learnwebcode.github.io/json-example/animals-1.json');
+												var tr = $(this).closest('tr');
+												var id = tr.children('td:eq(0)').text(); //get the text from first col of current row
+												var name = tr.children('td:eq(1)').text();
 
-				details.onload=function(){
-					var data=JSON.parse(details.responseText);
+												var details = new XMLHttpRequest();
+												var content = document.getElementById("divid");
+												details.open('GET','http://localhost:8080/rest_select_city_by_id/'
+																+ id);
 
-					//renderHTML(data);
-				
-				
-				var string="";
+												details.onload = function() {
+													var data = JSON
+															.parse(details.responseText);
 
-				for(i=0;i<data.length;i++){
-					string+= "<p>" + data[i].name + " is a " + data[i].species + ".</p>";
-				}
+													document
+															.getElementById("cityName").value = data.cityName;
+													document
+															.getElementById("cityId").value = data.cityId;
 
-				content.insertAdjacentHTML('beforeend',string);};
-				details.send();
+													// content.insertAdjacentHTML('beforeend',string);
+												};
 
-			});
-		});
+												details.send();
+											});
+						});
 	</script>
 </body>
 </html>
