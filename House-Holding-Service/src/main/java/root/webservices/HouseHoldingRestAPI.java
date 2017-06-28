@@ -137,7 +137,12 @@ public class HouseHoldingRestAPI {
 	// select area by area id
 	@RequestMapping(value = "rest_select_area_by_id/{area_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Area> selectAreById(@PathVariable("area_id") int area_id) {
-		return new ResponseEntity<Area>(dataAccess.selectArea(area_id), HttpStatus.OK);
+		Area a=dataAccess.selectArea(area_id);
+		
+		if(a!=null)
+			return new ResponseEntity<Area>(a, HttpStatus.OK);
+		
+		return new ResponseEntity<Area>(a, HttpStatus.NOT_FOUND);
 	}
 
 	// select City by city id
@@ -155,7 +160,13 @@ public class HouseHoldingRestAPI {
 	// select Service category by id
 	@RequestMapping(value = "rest_select_service_category_by_id/{sercate_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ServiceCategory> selectServiceCategoryById(@PathVariable("sercate_id") int sercate_id) {
-		return new ResponseEntity<ServiceCategory>(dataAccess.selectServiceCategory(sercate_id), HttpStatus.OK);
+		
+		ServiceCategory sc=dataAccess.selectServiceCategory(sercate_id);
+		
+		if(sc!=null)
+			return new ResponseEntity<ServiceCategory>(sc, HttpStatus.OK);
+		
+		return new ResponseEntity<ServiceCategory>(sc, HttpStatus.NOT_FOUND);
 	}
 
 	// ****************************************DELETE*********************************//

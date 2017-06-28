@@ -10,6 +10,7 @@
         <title>Home</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
          <%@include file="include-css.jsp" %>
+         
     </head>
     <body class="skin-blue">
         <!-- header logo: style can be found in header.less -->
@@ -27,7 +28,11 @@
                 
                 <!-- Main content -->
                 <section class="content">
-					
+									<div class="alert alert-success alert-dismissable">
+                                        <i class="fa fa-check"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <b>Alert!</b> Success fully update.
+                                    </div>
                	</section>
            </aside>
             <!-- /.right-side -->

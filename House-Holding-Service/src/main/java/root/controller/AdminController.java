@@ -598,7 +598,7 @@ public class AdminController {
 
 	@RequestMapping(value = "admin/delete_area", method = RequestMethod.GET)
 	public ModelAndView deleteArea(@RequestParam int area_id, HttpSession session) {
-
+		
 		ModelAndView model;
 		if (!isLoggeding(session)) {
 			model = new ModelAndView("admin/login");
@@ -606,7 +606,7 @@ public class AdminController {
 			return model;
 		}
 
-		// deleteArea(area_id);
+		deleteArea(area_id);
 
 		model = new ModelAndView("redirect:/admin/area");
 

@@ -71,9 +71,7 @@
 		<!-- /.right-side -->
 	</div>
 	<!-- ./wrapper -->
-	<!-- Test start -->
-
-
+	<!-- Model start -->
 	<div class="container">
 
 
@@ -112,9 +110,8 @@
 	</div>
 
 
-	<!-- Test End -->
+	<!-- MOdel End -->
 	<!-- add new calendar event modal -->
-	<%@include file="footer.jsp"%>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -150,5 +147,6 @@
 											});
 						});
 	</script>
+	<%@include file="footer.jsp"%>
 </body>
 </html>
