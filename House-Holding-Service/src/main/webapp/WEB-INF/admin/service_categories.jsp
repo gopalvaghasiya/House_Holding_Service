@@ -60,6 +60,7 @@
 									                <i class="glyphicon glyphicon-trash icon-white"></i>
 									                Delete
 									            </a>
+									            
 									        </td>
                                         </tr>
                                         </c:forEach>
@@ -73,10 +74,7 @@
            </aside>
             <!-- /.right-side -->
         </div><!-- ./wrapper -->
-        
-        <!-- add new calendar event modal -->
-
-
+       
         <%@include file="footer.jsp" %>
     </body>
 </html>

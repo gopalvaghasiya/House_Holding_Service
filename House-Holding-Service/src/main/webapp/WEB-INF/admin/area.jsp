@@ -45,21 +45,18 @@
                                         </tr>
                                         <c:forEach items="${areas}" var="area">
                                         <tr>
-                                            <td>${area.area.areaId}</td>
+                                            <td >${area.area.areaId}</td>
                                             <td>${area.city.cityName}</td>
                                             <td>${area.area.areaName}</td>
                                             <td class="center">
-												<a class="btn btn-info" href="/admin/edit_area?area_id=${area.area.areaId}">
-									                <i class="glyphicon glyphicon-edit icon-white"></i>
-									                Edit
-									            </a>
+												<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+													<i class="glyphicon glyphicon-edit icon-white"></i> Edit
+												</button>
 									            <a class="btn btn-danger" href="/admin/delete_area?area_id=${area.area.areaId}">
 									                <i class="glyphicon glyphicon-trash icon-white"></i>
 									                Delete
 									            </a>
-									            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
-													<i class="glyphicon glyphicon-edit icon-white"></i> Edit
-												</button>
+									            
 									        </td>
                                         </tr>
                                         </c:forEach>
@@ -84,13 +81,13 @@
 			<div class="modal-dialog">
 
 				<!-- Modal content-->
-				<form method="post" action="/admin/update_city">
+				<form method="post" action="/admin/update_area">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
 							<h4 class="modal-title">Edit Area</h4>
 						</div>
-						<div class="modal-body" id="divid">
+						<div class="modal-body" id="content">
 
 							<div class="form-group">
 								<label>Select City</label>
@@ -103,7 +100,6 @@
 								 <input type="text" name="areaName" class="form-control"
 									id="areaName" value="" placeholder="Area name" required>
 							</div>
-							<input type="hidden" value="" name="areaId"/>
 							
 							<div class="box-footer">
 								<button type="submit" class="btn btn-primary">Update</button>
@@ -127,12 +123,13 @@
         <!-- add new calendar event modal -->
 
 
-        <%@include file="footer.jsp" %>
+        
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 	<script type="text/javascript">
 	var cities=document.getElementById("cities");
+	var content=document.getElementById("content");
 		$(document)
 				.ready(
 						function() {
@@ -144,10 +141,8 @@
 												document.getElementById("cities").innerHTML = ""
 												
 												var tr = $(this).closest('tr');
-												var id = tr
-														.children('td:eq(0)')
-														.text(); //get the text from first col of current row
-														
+												var id = tr.children('td:eq(0)').text(); //get the text from first col of current row
+
 												var ct = new XMLHttpRequest();
 												var area=new XMLHttpRequest();
 												
@@ -155,55 +150,55 @@
 
 												area.open('GET','http://localhost:8080/rest_select_area_by_id/'+id);
 												var cid=0;
-												area.onload = function(){
-													var area_data=JSON.parse(area.responseText);
-													
-													ct.open('GET','http://localhost:8080/rest_select_all_city');
-													ct.onload = function() {
-														var data = JSON
-																.parse(ct.responseText);
-			
-														setSelect(area_data.cityId,data);
-														
-														
+												
+													area.onload = function(){
+														if(area.statusText=="Not Found"){
+															var str="<p> Record not Found </p>";
+															content.innerHTML = ""
+															content.insertAdjacentHTML('beforeend',str);
+														}
+														else{
+															var area_data=JSON.parse(area.responseText);
+															
+															ct.open('GET','http://localhost:8080/rest_select_all_city');
+															ct.onload = function() {
+																var data = JSON.parse(ct.responseText);
+					
+																setSelect(area_data.cityId,data);
+															};
+															ct.send();
+															
+															document.getElementById("areaId").value=area_data.areaId;
+															document.getElementById("areaName").value=area_data.areaName;
+														}
 													};
-				
-													ct.send();
-												};
-												area.send();
-												
-												/* console.log(cid);
-												ct.open('GET','http://localhost:8080/rest_select_all_city');
-												ct.onload = function() {
-													var data = JSON
-															.parse(ct.responseText);
-		
-													setSelect(1,data);
-													
-													// content.insertAdjacentHTML('beforeend',string);
-												};
-			
-												ct.send(); */
-												
-												
+													area.send();
 												
 											});
 						});
 		
 		function setSelect(id,data){
-			console.log(id);
 			var str="";
 			
 			str+="<select class=form-control name=cityId id=cityId required>"
 			+"<option selected disabled value=>---select---</option>";
 			
 			for(i=0;i<data.length;i++){
-				str+="<option value="+data[i].cityId+">"+data[i].cityName+"</option>";
+				
+				if(data[i].cityId!=id)
+				{
+					str+="<option value="+data[i].cityId+">"+data[i].cityName+"</option>";
+					continue;
+				}
+				
+				str+="<option value="+data[i].cityId+" selected=selected>"+data[i].cityName+"</option>";
 			}
 			str+="</select>";
 			
 			cities.insertAdjacentHTML('beforeend',str);
 		}
 	</script>
+	<%@include file="footer.jsp" %>
 </body>
+
 </html>
