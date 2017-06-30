@@ -24,7 +24,7 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span>${sessionScope.user.userName}<i class="caret"></i></span>
+                                <span>${sessionScope.user_name}<i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->

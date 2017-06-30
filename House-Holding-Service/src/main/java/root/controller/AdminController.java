@@ -70,6 +70,7 @@ public class AdminController {
 		ModelAndView model;
 		if (admin != null) {
 			session.setAttribute("user", admin);
+			session.setAttribute("user_name", admin.getUserName());
 			session.setAttribute("user_role", "admin");
 
 			model = new ModelAndView("admin/home");
@@ -232,7 +233,7 @@ public class AdminController {
 			model.addObject("message", "Please login");
 			return model;
 		}
-		model = new ModelAndView("admin/add_service_category");
+		model = new ModelAndView("redirect:/admin/add_service_category");
 
 		String folder = "/resources/images/service_category/";
 		String path = session.getServletContext().getRealPath(folder);
@@ -287,7 +288,7 @@ public class AdminController {
 			model.addObject("message", "Please login");
 			return model;
 		}
-		model = new ModelAndView("admin/add_service");
+		model = new ModelAndView("redirect:/admin/add_service");
 
 		String url = "http://localhost:8080/rest_insert_services";
 		RestTemplate resTemp = new RestTemplate();
@@ -336,7 +337,7 @@ public class AdminController {
 
 		int i = restTemplate.postForObject(url, city, Integer.class);
 
-		model = new ModelAndView("admin/add_city");
+		model = new ModelAndView("redirect:/admin/add_city");
 
 		if (i == 1) {
 			model.addObject("response", "Successfully inserted");
@@ -374,7 +375,7 @@ public class AdminController {
 			model.addObject("message", "Please login");
 			return model;
 		}
-		model = new ModelAndView("admin/add_area");
+		model = new ModelAndView("redirect:/admin/add_area");
 
 		RestTemplate restTemplate = new RestTemplate();
 		String url = "http://localhost:8080/rest_insert_area";
@@ -539,7 +540,7 @@ public class AdminController {
 			model.addObject("message", "Please login");
 			return model;
 		}
-		model = new ModelAndView("admin/service_categories");
+		
 
 		// setting of image
 		String folder = "/resources/images/service_category/";
@@ -559,7 +560,7 @@ public class AdminController {
 
 		int res = updateServiceCAtegory(sercate);
 
-		model.addObject("categories", getServiceCategory());
+		model = new ModelAndView("redirect:/admin/service_categories");
 		if (res == 1) {
 			model.addObject("response", "Update Success fully");
 		} else {
