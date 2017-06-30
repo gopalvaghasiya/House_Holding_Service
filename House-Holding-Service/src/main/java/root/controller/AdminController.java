@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,6 +30,16 @@ import root.model.*;
 @Controller
 public class AdminController {
 
+	@Value("${demo}")
+	private String demo;
+
+	// Demo
+	@RequestMapping(value = "customer", method = RequestMethod.GET)
+	public String demo() {
+
+		return "customer/home";
+	}
+
 	// check user is loged in or not
 	public boolean isLoggeding(HttpSession session) {
 
@@ -43,6 +54,7 @@ public class AdminController {
 	// request for login page
 	@RequestMapping(value = "admin", method = RequestMethod.GET)
 	public String RequestForAdminWeb() {
+
 		return "admin/login";
 	}
 
@@ -120,7 +132,7 @@ public class AdminController {
 		}
 
 		model = new ModelAndView("admin/customer");
-		
+
 		model.addObject("customers", getAllCustomer());
 		return model;
 	}
@@ -138,7 +150,7 @@ public class AdminController {
 
 		model = new ModelAndView("admin/service_provider");
 		model.addObject("providers", getAllServiceProvider());
-		
+
 		return model;
 	}
 
@@ -461,8 +473,8 @@ public class AdminController {
 			return model;
 		}
 		model = new ModelAndView("admin/city");
-		
-		int res =updateCity(city);
+
+		int res = updateCity(city);
 
 		model.addObject("citys", getCitys());
 		if (res == 1) {
@@ -540,7 +552,6 @@ public class AdminController {
 			model.addObject("message", "Please login");
 			return model;
 		}
-		
 
 		// setting of image
 		String folder = "/resources/images/service_category/";
@@ -569,37 +580,38 @@ public class AdminController {
 		return model;
 	}
 
-	//update user status
+	// update user status
 	@RequestMapping(value = "admin/change_user_status", method = RequestMethod.GET)
-	public ModelAndView changeUserStatus(@RequestParam int user_id,@RequestParam int status_id,@RequestParam int user_type, HttpSession session) {
-		
-		Customer c=new Customer();
+	public ModelAndView changeUserStatus(@RequestParam int user_id, @RequestParam int status_id,
+			@RequestParam int user_type, HttpSession session) {
+
+		Customer c = new Customer();
 		ModelAndView model;
 		if (!isLoggeding(session)) {
 			model = new ModelAndView("admin/login");
 			model.addObject("message", "Please login");
 			return model;
 		}
-		
-		if(user_type==1)
+
+		if (user_type == 1)
 			model = new ModelAndView("redirect:/admin/customer");
 		else
 			model = new ModelAndView("redirect:/admin/service_provider");
-		
-		status_id=status_id%2;
+
+		status_id = status_id % 2;
 		status_id++;
 		c.setCustomerId(user_id);
-		c.setStatus(""+status_id);
-		
+		c.setStatus("" + status_id);
+
 		updateUserStatus(user_type, c);
 		return model;
-	}	
-	
+	}
+
 	// **********************************DELETE****************************//
 
 	@RequestMapping(value = "admin/delete_area", method = RequestMethod.GET)
 	public ModelAndView deleteArea(@RequestParam int area_id, HttpSession session) {
-		
+
 		ModelAndView model;
 		if (!isLoggeding(session)) {
 			model = new ModelAndView("admin/login");
@@ -799,16 +811,17 @@ public class AdminController {
 		return restTemplate.postForObject(url, sercate, Integer.class);
 
 	}
-	
-	//update user status
-	public void updateUserStatus(int user_type,Customer cust){
-		RestTemplate rest=new RestTemplate();
-		String url="http://localhost:8080//rest_update_user_status/{user_type}";
 
-		Map<String,Integer> map=new HashMap<>();
+	// update user status
+	public void updateUserStatus(int user_type, Customer cust) {
+		RestTemplate rest = new RestTemplate();
+		String url = "http://localhost:8080//rest_update_user_status/{user_type}";
+
+		Map<String, Integer> map = new HashMap<>();
 		map.put("user_type", user_type);
-		
-		rest.put(url, cust, map);;
+
+		rest.put(url, cust, map);
+		;
 	}
 
 	// ************************DELETE**********************************
