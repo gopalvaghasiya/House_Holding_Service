@@ -33,6 +33,7 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                         <b>Alert!</b> Success fully update.
                                     </div>
+                                    
                	</section>
            </aside>
             <!-- /.right-side -->

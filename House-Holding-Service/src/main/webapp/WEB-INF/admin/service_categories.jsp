@@ -33,7 +33,11 @@
                             <div class="box">
                                 <div class="box-header">
                                     <h3 class="box-title">Service Categories</h3>
-                                    <h4>${response}</h4>
+                                    <div class="form-group has-success" align="center">
+                                            <label class="control-label"  for="inputSuccess"> <h4>${response}</h4></label>
+                                    </div>
+                                    
+                                    
                                 </div><!-- /.box-header -->
                                 <div class="box-body table-responsive no-padding">
                                     <table class="table table-hover">

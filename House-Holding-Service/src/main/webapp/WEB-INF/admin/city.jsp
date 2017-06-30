@@ -32,7 +32,7 @@
 				<div class="box">
 					<div class="box-header">
 						<h3 class="box-title">City</h3>
-						<h4>${response}</h4>
+						<label class="control-label"  for="inputSuccess"> <h4>${response}</h4></label>
 					</div>
 					<!-- /.box-header -->
 					<div class="box-body table-responsive no-padding">
