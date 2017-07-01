@@ -30,16 +30,6 @@ import root.model.*;
 @Controller
 public class AdminController {
 
-	@Value("${demo}")
-	private String demo;
-
-	// Demo
-	@RequestMapping(value = "customer", method = RequestMethod.GET)
-	public String demo() {
-
-		return "customer/home";
-	}
-
 	// check user is loged in or not
 	public boolean isLoggeding(HttpSession session) {
 
