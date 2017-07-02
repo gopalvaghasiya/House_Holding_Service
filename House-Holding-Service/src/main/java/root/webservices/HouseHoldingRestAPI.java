@@ -168,6 +168,11 @@ public class HouseHoldingRestAPI {
 		
 		return new ResponseEntity<ServiceCategory>(sc, HttpStatus.NOT_FOUND);
 	}
+	
+	@RequestMapping(value="rest_select_area_by_city_id/{cityId}",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<Area>> selectAreaByCityId(@PathVariable("cityId")int cityId){
+		return new ResponseEntity<ArrayList<Area>>(dataAccess.selectAreaByCityId(cityId),HttpStatus.OK);
+	}
 
 	// ****************************************DELETE*********************************//
 
