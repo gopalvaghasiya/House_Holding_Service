@@ -17,11 +17,18 @@ public class CustomerController {
 
 		return "customer/home";
 	}
-	
+
 	// request for customer login page
 	@RequestMapping(value = "customer/login", method = RequestMethod.GET)
 	public String MoveToCustomerLogin() {
 
 		return "customer/login";
+	}
+
+	// request for customer Registration page
+	@RequestMapping(value = "customer/register", method = RequestMethod.GET)
+	public String MoveToCustomerRegistration() {
+
+		return "customer/register";
 	}
 }

@@ -28,7 +28,7 @@
                     </li>
                     
                     <li class="page-scroll">
-                        <a href="#login">Login/Resister</a>
+                        <a href="/customer/login">Login/Resister</a>
                     </li>
                    <!--  <li class="page-scroll">
                         <sup><a class="btn btn-success"

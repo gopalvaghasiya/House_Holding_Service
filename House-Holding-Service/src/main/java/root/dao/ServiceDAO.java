@@ -380,6 +380,37 @@ public class ServiceDAO {
 			}
 		});
 	}
+	
+	//select area by city id
+	public ArrayList<Area> selectAreaByCityId(int id){
+		
+		String sql="select * from area where city_id=?";
+		
+		return template.query(sql,new PreparedStatementSetter(){
+			
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setInt(1, id);
+			}
+		},
+		new ResultSetExtractor<ArrayList<Area>>(){
+			
+			public ArrayList<Area> extractData(ResultSet rs) throws SQLException{
+				
+				ArrayList<Area> al=new ArrayList<>();
+				
+				while(rs.next()){
+					Area a=new Area();
+					
+					a.setAreaId(rs.getInt(1));
+					a.setCityId(rs.getInt(2));
+					a.setAreaName(rs.getString(3));
+					
+					al.add(a);
+				}
+				return al;
+			}
+		});
+	}
 
 	// ******************************UPDATE*******************************
 

@@ -17,7 +17,7 @@ btn.addEventListener("click",function(){
 	details.send();
 	cnt++;
 	if(cnt>3){
-		console.log("hide");
+		console.log(btn);
 		btn.classList.add("hide-me");
 	}
 
