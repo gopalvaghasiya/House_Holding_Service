@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,9 @@ import root.model.*;
 @Controller
 public class AdminController {
 
+	@Autowired
+	Services service;
+	
 	// check user is loged in or not
 	public boolean isLoggeding(HttpSession session) {
 
@@ -188,7 +192,7 @@ public class AdminController {
 		}
 
 		model = new ModelAndView("admin/city");
-		model.addObject("citys", getCitys());
+		model.addObject("citys", service.getCitys());
 
 		return model;
 	}
@@ -361,7 +365,7 @@ public class AdminController {
 		}
 		model = new ModelAndView("admin/add_area");
 
-		City[] citys = getCitys();
+		City[] citys = service.getCitys();
 		model.addObject("citys", citys);
 
 		return model;
@@ -384,7 +388,7 @@ public class AdminController {
 
 		int res = restTemplate.postForObject(url, area, Integer.class);
 
-		model.addObject("citys", getCitys());
+		model.addObject("citys", service.getCitys());
 		if (res == 1) {
 			model.addObject("response", "Successfully inserted");
 		} else {
@@ -407,7 +411,7 @@ public class AdminController {
 			return model;
 		}
 		model = new ModelAndView("admin/edit_area");
-		model.addObject("citys", getCitys());
+		model.addObject("citys", service.getCitys());
 		model.addObject("area", getArea(area_id));
 
 		return model;
@@ -466,7 +470,7 @@ public class AdminController {
 
 		int res = updateCity(city);
 
-		model.addObject("citys", getCitys());
+		model.addObject("citys", service.getCitys());
 		if (res == 1) {
 			model.addObject("response", "Update Success fully");
 		} else {
@@ -672,16 +676,16 @@ public class AdminController {
 
 	// ************************GET DATA*********************************//
 
-	// get cities
-	public City[] getCitys() {
-		RestTemplate restTemplate = new RestTemplate();
-		String url = "http://localhost:8080/rest_select_all_city";
-
-		ResponseEntity<City[]> getCitys = restTemplate.getForEntity(url, City[].class);
-		City[] citys = getCitys.getBody();
-
-		return citys;
-	}
+//	// get cities
+//	public City[] getCitys() {
+//		RestTemplate restTemplate = new RestTemplate();
+//		String url = "http://localhost:8080/rest_select_all_city";
+//
+//		ResponseEntity<City[]> getCitys = restTemplate.getForEntity(url, City[].class);
+//		City[] citys = getCitys.getBody();
+//
+//		return citys;
+//	}
 
 	// get service cetegories
 	public ServiceCategory[] getServiceCategory() {

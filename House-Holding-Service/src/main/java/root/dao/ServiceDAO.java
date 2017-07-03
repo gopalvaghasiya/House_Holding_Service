@@ -48,6 +48,7 @@ public class ServiceDAO {
 		});
 	}
 
+//**************************Insert data****************************************//	
 	// insert city
 	public int insertCity(City city) {
 
@@ -107,7 +108,28 @@ public class ServiceDAO {
 			}
 		});
 	}
-
+	
+	// insert customer registration details
+	public int insertCustomerDetail(Customer customer){
+		String sql="insert into customer(customer_id,customer_name,customer_name,customer_email,password,area_id,address,user_status_id,customer_mobileno)"
+				+ "values (DEFAULT,?,?,?,?,?,?,?)";
+		
+		return template.update(sql,new PreparedStatementSetter(){
+			
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setString(1,customer.getCustomerName());
+				ps.setString(2,customer.getEmail());
+				ps.setString(3,customer.getPassword());
+				ps.setInt(4,Integer.parseInt(customer.getArea()));
+				ps.setString(5,customer.getAddress());
+				ps.setInt(6,Integer.parseInt(customer.getStatus()));
+				ps.setLong(7,Long.parseLong(customer.getMobileNo()));
+			}
+		});
+	}
+	
+//*****************************Select Data****************************
+	
 	// select All City
 	public ArrayList<City> selectCity() {
 
