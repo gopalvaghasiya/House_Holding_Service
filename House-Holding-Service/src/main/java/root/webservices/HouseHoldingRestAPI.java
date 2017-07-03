@@ -34,6 +34,9 @@ public class HouseHoldingRestAPI {
 		return new ResponseEntity<Admin>(admin, HttpStatus.OK);
 	}
 
+	// *************************Insert
+	// Data*************************************//
+
 	// insert city
 	@RequestMapping(value = "/rest_insert_city", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Integer insert_city(@RequestBody City city) {
@@ -47,6 +50,24 @@ public class HouseHoldingRestAPI {
 		return dataAccess.insertArea(area);
 	}
 
+	// insert service category
+	@RequestMapping(value = "/rest_insert_service_category", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Integer insert_Service_category(@RequestBody ServiceCategory serviceCategory) {
+		return dataAccess.insertServiceCategory(serviceCategory);
+	}
+
+	// insert services
+	@RequestMapping(value = "/rest_insert_services", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Integer insertServices(@RequestBody Services service) {
+		return dataAccess.insertServices(service);
+	}
+
+	// insert customer details
+	@RequestMapping(value="/rest_insert_customer",method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE)
+	public Integer insertCustomer(@RequestBody Customer customer){
+		return dataAccess.insertCustomerDetail(customer);
+	}
+	
 	// **************************Update***********************************************
 	// Update area
 	@RequestMapping(value = "/rest_update_area", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -72,25 +93,12 @@ public class HouseHoldingRestAPI {
 		return dataAccess.updateServiceCategory(sercate);
 	}
 
-//***********************PUT Request************************************************
-	//update user status
-	@RequestMapping(value="/rest_update_user_status/{user_type}",method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void updateUserStatus(@PathVariable("user_type") int user_type,@RequestBody Customer c){
-		 dataAccess.updateUserStatus(user_type,c);
-	}
-	
-	// *********************Insert**************************************************
-
-	// insert service category
-	@RequestMapping(value = "/rest_insert_service_category", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Integer insert_Service_category(@RequestBody ServiceCategory serviceCategory) {
-		return dataAccess.insertServiceCategory(serviceCategory);
-	}
-
-	// insert services
-	@RequestMapping(value = "/rest_insert_services", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Integer insertServices(@RequestBody Services service) {
-		return dataAccess.insertServices(service);
+	// ***********************PUT
+	// Request************************************************
+	// update user status
+	@RequestMapping(value = "/rest_update_user_status/{user_type}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void updateUserStatus(@PathVariable("user_type") int user_type, @RequestBody Customer c) {
+		dataAccess.updateUserStatus(user_type, c);
 	}
 
 	// select all city
@@ -137,11 +145,11 @@ public class HouseHoldingRestAPI {
 	// select area by area id
 	@RequestMapping(value = "rest_select_area_by_id/{area_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Area> selectAreById(@PathVariable("area_id") int area_id) {
-		Area a=dataAccess.selectArea(area_id);
-		
-		if(a!=null)
+		Area a = dataAccess.selectArea(area_id);
+
+		if (a != null)
 			return new ResponseEntity<Area>(a, HttpStatus.OK);
-		
+
 		return new ResponseEntity<Area>(a, HttpStatus.NOT_FOUND);
 	}
 
@@ -160,18 +168,18 @@ public class HouseHoldingRestAPI {
 	// select Service category by id
 	@RequestMapping(value = "rest_select_service_category_by_id/{sercate_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ServiceCategory> selectServiceCategoryById(@PathVariable("sercate_id") int sercate_id) {
-		
-		ServiceCategory sc=dataAccess.selectServiceCategory(sercate_id);
-		
-		if(sc!=null)
+
+		ServiceCategory sc = dataAccess.selectServiceCategory(sercate_id);
+
+		if (sc != null)
 			return new ResponseEntity<ServiceCategory>(sc, HttpStatus.OK);
-		
+
 		return new ResponseEntity<ServiceCategory>(sc, HttpStatus.NOT_FOUND);
 	}
-	
-	@RequestMapping(value="rest_select_area_by_city_id/{cityId}",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ArrayList<Area>> selectAreaByCityId(@PathVariable("cityId")int cityId){
-		return new ResponseEntity<ArrayList<Area>>(dataAccess.selectAreaByCityId(cityId),HttpStatus.OK);
+
+	@RequestMapping(value = "rest_select_area_by_city_id/{cityId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<Area>> selectAreaByCityId(@PathVariable("cityId") int cityId) {
+		return new ResponseEntity<ArrayList<Area>>(dataAccess.selectAreaByCityId(cityId), HttpStatus.OK);
 	}
 
 	// ****************************************DELETE*********************************//

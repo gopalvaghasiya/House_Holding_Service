@@ -2,7 +2,7 @@ var sendotp = document.getElementById("sendotp");
 var content = document.getElementById("content");
 
 
-  function sendOTP(){
+ /* function sendOTP(){
   var phone = document.getElementById("phone");
 					var phoneno = /^\d{10}$/;
 
@@ -71,7 +71,7 @@ sendotp
 					}
 
 				});
-*/
+*//*
 function registrationData() {
 
 	content.innerHTML = "";
@@ -169,7 +169,7 @@ function setCities(data) {
 	document.getElementById("cityContainer").insertAdjacentHTML('beforeend',
 			str);
 }
-
+*/
 // select area
 function selectArea() {
 
@@ -191,19 +191,19 @@ function selectArea() {
 // set area to div
 function setAreas(data) {
 	var str = "";
-	str += "<div class='row control-group'>"
-			+ "<div class='form-group col-xs-5 floating-label-form-group controls'>"
+	str += ""
+			+ "<div class='form-group col-xs-8 floating-label-form-group controls'>"
 			+ "<label >Area</label>"
-			+ "<select class='form-control' name='areaId' id='areaId' required>"
-			+ "<option selected disabled value=''>-------Select Area------</option>"
+			+ "<select class='form-control' name='area' id='areaId' required>"
+			+ "<option selected disabled value=''>----------Select Area-------------</option>"
 
 	for (i = 0; i < data.length; i++) {
 		str += "<option value=" + data[i].areaId + ">" + data[i].areaName
 				+ "</option>";
 	}
 
-	str += "</select>" + "<p class='help-block text-danger'></p>"
-			+ "</div></div>"
+	str += "</select>"
+			+ "</div>"
 
 	document.getElementById("areaContainer").innerHTML = "";
 	document.getElementById("areaContainer").insertAdjacentHTML('beforeend',
