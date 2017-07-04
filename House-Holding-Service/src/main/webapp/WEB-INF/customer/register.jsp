@@ -71,7 +71,7 @@
 									<label for="phone">Phone Number</label> <input type="tel"
 										class="form-control" placeholder="Phone Number" name="mobileNo" id="mobileNo"
 										title="Please enter Phone no." required>
-									<p class="help-block text-danger"></p>
+									<p class="help-block text-danger">${response}</p>
 								</div>
 							</div>
 							
