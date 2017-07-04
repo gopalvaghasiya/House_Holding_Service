@@ -1,5 +1,7 @@
 package root.model;
 
+import javax.validation.constraints.Size;
+
 public class Customer {
 
 	private int customerId;
@@ -9,6 +11,8 @@ public class Customer {
 	private String area;
 	private String address;
 	private String status;
+	
+	@Size(min=10,message="please")
 	private String mobileNo;
 
 	public int getCustomerId() {

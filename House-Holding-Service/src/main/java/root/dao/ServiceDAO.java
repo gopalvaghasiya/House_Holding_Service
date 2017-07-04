@@ -47,6 +47,56 @@ public class ServiceDAO {
 			}
 		});
 	}
+	
+	//check is number is registered or not
+	public int isCustomerRegistered(String phone){
+		String sql="select count(*) from customer where customer_mobileno=?";
+		
+		return template.query(sql,new PreparedStatementSetter(){
+			
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setString(1, phone);
+			}
+		},
+		new ResultSetExtractor<Integer>(){
+			public Integer extractData(ResultSet rs) throws SQLException{
+				
+				if(rs.next()){
+					return 1;
+				}
+				return 0;
+			}
+		});
+	}
+	
+	// validate customer and return result
+	public Customer isValidCustomer(String phone,String pass){
+		
+		String sql="select customer_id,customer_name,customer_email,customer_mobileno from customer where customer_mobileno=? and password=?";
+		
+		return template.query(sql,new PreparedStatementSetter(){
+			
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setString(1, phone);
+				ps.setString(2, pass);
+			}
+		},
+		new ResultSetExtractor<Customer>(){
+			public Customer extractData(ResultSet rs) throws SQLException{
+				
+				if(rs.next()){
+					Customer cust=new Customer();
+					cust.setCustomerId(rs.getInt(1));
+					cust.setCustomerName(rs.getString(2));
+					cust.setEmail(rs.getString(3));
+					cust.setMobileNo(rs.getString(4));
+					
+					return cust;
+				}
+				return null;
+			}
+		});
+	}
 
 //**************************Insert data****************************************//	
 	// insert city
@@ -111,7 +161,7 @@ public class ServiceDAO {
 	
 	// insert customer registration details
 	public int insertCustomerDetail(Customer customer){
-		String sql="insert into customer(customer_id,customer_name,customer_name,customer_email,password,area_id,address,user_status_id,customer_mobileno)"
+		String sql="insert into customer(customer_id,customer_name,customer_email,password,area_id,address,user_status_id,customer_mobileno)"
 				+ "values (DEFAULT,?,?,?,?,?,?,?)";
 		
 		return template.update(sql,new PreparedStatementSetter(){

@@ -34,6 +34,20 @@ public class HouseHoldingRestAPI {
 		return new ResponseEntity<Admin>(admin, HttpStatus.OK);
 	}
 
+	// check is customer mobile no is registered
+	@RequestMapping(value = "/rest_customer_isregistered/{phone}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Integer> isCustomerRegistered(@PathVariable("phone") String phone){
+		return new ResponseEntity<Integer>(dataAccess.isCustomerRegistered(phone), HttpStatus.OK);
+	}
+	
+	// customer login
+	@RequestMapping(value = "/rest_customer_login/{phone}/{password}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Customer> getLoginAccessForCustomer(@PathVariable("phone") String phone,
+			@PathVariable("password") String password) {
+
+		return new ResponseEntity<Customer>(dataAccess.isValidCustomer(phone, password), HttpStatus.OK);
+	}
+	
 	// *************************Insert
 	// Data*************************************//
 

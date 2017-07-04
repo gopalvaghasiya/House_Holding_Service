@@ -3,10 +3,12 @@ package root.controller;
 import java.net.URISyntaxException;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,9 +23,6 @@ public class CustomerController {
 
 	@Autowired
 	Services service;
-
-	@Value("${demo}")
-	private String demo;
 
 	// request for customer home page
 	@RequestMapping(value = "customer", method = RequestMethod.GET)
@@ -50,11 +49,21 @@ public class CustomerController {
 		return model;
 	}
 
-	// requestration of customer
+	// request registration of customer
 	@RequestMapping(value = "customer/register", method = RequestMethod.POST)
-	public ModelAndView RegisterationOfCustomer(@ModelAttribute("customer") Customer customer, HttpSession session) throws URISyntaxException {
+	public ModelAndView RegisterationOfCustomer( @ModelAttribute("customer")@Valid Customer customer,BindingResult result, HttpSession session) throws URISyntaxException {
 
 		ModelAndView model = new ModelAndView("customer/register");
+		
+		if(result.hasErrors()){
+			model=new ModelAndView("customer/register");
+			return model;
+		}
+		if(service.isCustomerRegistered(customer.getMobileNo())==1){
+			model.addObject("otp","no");
+			model.addObject("response","mobile no is registered");
+			return model;
+		}
 		String otp=service.sendOTP();
 		
 		session.setAttribute("otp",otp);
@@ -64,7 +73,7 @@ public class CustomerController {
 		return model;
 	}
 
-	// final requestration of customer
+	// final request registration of customer
 	@RequestMapping(value = "customer/registration", method = RequestMethod.POST)
 	public ModelAndView finalRegisterationOfCustomer(@RequestParam String otp, HttpSession session) {
 
@@ -73,7 +82,13 @@ public class CustomerController {
 		String sotp=(String)session.getAttribute("otp");
 		
 		if(sotp.equals(otp)){
-			model = new ModelAndView("redirect:/customer");
+			
+			int i = service.registration((Customer)session.getAttribute("temp_cust"));
+			
+			if(i==1)
+				model = new ModelAndView("redirect:/customer/login");
+			else
+				model=new ModelAndView("redirect:/register");
 		}
 		else{
 			model = new ModelAndView("customer/register");
@@ -83,6 +98,27 @@ public class CustomerController {
 		//session.setAttribute("temp_cust", customer);
 		model.addObject("otp", "yes");
 
+		return model;
+	}
+	
+	// login of customer
+	@RequestMapping(value="customer/login",method=RequestMethod.POST)
+	public ModelAndView customerLogin(@RequestParam String phone,@RequestParam String pass,HttpSession session){
+		
+		ModelAndView model;
+		
+		Customer cust=service.isValidCust(phone, pass);
+		
+		if(cust==null){
+			model=new ModelAndView("customer/login");
+			model.addObject("response","Mobile no or Password is wrong");
+			return model;
+		}
+		
+		session.setAttribute("user",cust);
+		session.setAttribute("user_role","customer");
+		
+		model=new ModelAndView("customer/home");
 		return model;
 	}
 }
