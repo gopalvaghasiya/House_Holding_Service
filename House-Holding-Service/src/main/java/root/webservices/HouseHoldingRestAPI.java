@@ -179,6 +179,12 @@ public class HouseHoldingRestAPI {
 		return new ResponseEntity<Services>(dataAccess.selectService(service_id), HttpStatus.OK);
 	}
 
+	// select services by category id
+	@RequestMapping(value="rest_select_services_by_cate_id/{cateid}",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<Services>> selectServicesByCateId(@PathVariable("cateid")int cateid){
+		return new ResponseEntity<ArrayList<Services>>(dataAccess.selectServiceByCategoryId(cateid),HttpStatus.OK);
+	}
+	
 	// select Service category by id
 	@RequestMapping(value = "rest_select_service_category_by_id/{sercate_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ServiceCategory> selectServiceCategoryById(@PathVariable("sercate_id") int sercate_id) {

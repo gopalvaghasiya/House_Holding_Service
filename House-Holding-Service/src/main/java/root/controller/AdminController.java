@@ -32,7 +32,7 @@ import root.model.*;
 public class AdminController {
 
 	@Autowired
-	Services service;
+	ServicesHelper service;
 	
 	// check user is loged in or not
 	public boolean isLoggeding(HttpSession session) {
@@ -160,7 +160,7 @@ public class AdminController {
 		}
 
 		model = new ModelAndView("admin/service_categories");
-		model.addObject("categories", getServiceCategory());
+		model.addObject("categories", service.getServiceCategory());
 
 		return model;
 	}
@@ -279,14 +279,14 @@ public class AdminController {
 		}
 		model = new ModelAndView("admin/add_service");
 
-		model.addObject("categories", getServiceCategory());
+		model.addObject("categories", service.getServiceCategory());
 
 		return model;
 	}
 
 	// insert service to db
 	@RequestMapping(value = "admin/add_service", method = RequestMethod.POST)
-	public ModelAndView insertServiceTODb(@ModelAttribute("service") Services service, HttpSession session) {
+	public ModelAndView insertServiceTODb(@ModelAttribute("service") Services services, HttpSession session) {
 
 		ModelAndView model;
 		if (!isLoggeding(session)) {
@@ -299,14 +299,14 @@ public class AdminController {
 		String url = "http://localhost:8080/rest_insert_services";
 		RestTemplate resTemp = new RestTemplate();
 
-		int i = resTemp.postForObject(url, service, Integer.class);
+		int i = resTemp.postForObject(url, services, Integer.class);
 
 		if (i == 1) {
 			model.addObject("response", "inserted success fully");
 		} else {
 			model.addObject("response", "insersion failed");
 		}
-		model.addObject("categories", getServiceCategory());
+		model.addObject("categories", service.getServiceCategory());
 
 		return model;
 	}
@@ -491,7 +491,7 @@ public class AdminController {
 		}
 		model = new ModelAndView("admin/edit_service");
 		model.addObject("service", getService(service_id));
-		model.addObject("categories", getServiceCategory());
+		model.addObject("categories", service.getServiceCategory());
 
 		return model;
 	}
@@ -676,24 +676,6 @@ public class AdminController {
 
 	// ************************GET DATA*********************************//
 
-//	// get cities
-//	public City[] getCitys() {
-//		RestTemplate restTemplate = new RestTemplate();
-//		String url = "http://localhost:8080/rest_select_all_city";
-//
-//		ResponseEntity<City[]> getCitys = restTemplate.getForEntity(url, City[].class);
-//		City[] citys = getCitys.getBody();
-//
-//		return citys;
-//	}
-
-	// get service cetegories
-	public ServiceCategory[] getServiceCategory() {
-		RestTemplate restTemplate = new RestTemplate();
-		String url = "http://localhost:8080/rest_select_all_service_category";
-
-		return restTemplate.getForEntity(url, ServiceCategory[].class).getBody();
-	}
 
 	// get area join city
 	public AreaCity[] getAreaCity() {

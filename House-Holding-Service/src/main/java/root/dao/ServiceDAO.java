@@ -62,7 +62,12 @@ public class ServiceDAO {
 			public Integer extractData(ResultSet rs) throws SQLException{
 				
 				if(rs.next()){
-					return 1;
+					int i=rs.getInt(1);
+					
+					if(i>0)
+						return 1;
+					else
+						return 0;
 				}
 				return 0;
 			}
@@ -350,6 +355,7 @@ public class ServiceDAO {
 
 	// ***************************Select by
 	// id**************************************
+	
 	// select single area by id
 	public Area selectArea(int id) {
 		String sql = "select * from area where area_id=?";
@@ -426,7 +432,35 @@ public class ServiceDAO {
 			}
 		});
 	}
-
+	
+	//select service by category id
+	public ArrayList<Services> selectServiceByCategoryId(int cateid){
+		String sql="select * from services where service_category_id=?";
+		
+		return template.query(sql,new PreparedStatementSetter(){
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setInt(1, cateid);
+			}
+		},
+		new ResultSetExtractor<ArrayList<Services>>(){
+			public ArrayList<Services> extractData(ResultSet rs) throws SQLException{
+				
+				ArrayList<Services> ser=new ArrayList<>();
+				
+				while(rs.next()){
+					Services s=new Services();
+					s.setServiceId(rs.getInt(1));
+					s.setServiceCateId(rs.getInt(2));
+					s.setServiceName(rs.getString(3));
+					s.setServiceDesc(rs.getString(4));
+					
+					ser.add(s);
+				}
+				return ser;
+			}
+		});
+	}
+	
 	// select service category by id
 	public ServiceCategory selectServiceCategory(int id) {
 		String sql = "select * from service_category where service_category_id=?";
