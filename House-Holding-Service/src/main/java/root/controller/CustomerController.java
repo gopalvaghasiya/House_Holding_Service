@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,13 +21,27 @@ import root.model.*;
 public class CustomerController {
 
 	@Autowired
-	Services service;
+	ServicesHelper service;
 
+	//check customer is logedin or not
+	public boolean isLogedin(HttpSession session){
+	
+		String user_role=(String)session.getAttribute("user_role");
+		if(user_role!=null && user_role.equals("customer")){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
 	// request for customer home page
 	@RequestMapping(value = "customer", method = RequestMethod.GET)
-	public String demo() {
+	public ModelAndView goToHomePage() {
 
-		return "customer/home";
+		ModelAndView model=new ModelAndView("customer/home");
+		model.addObject("servicecate",service.getServiceCategory());
+		return model;
 	}
 
 	// request for customer login page
@@ -60,6 +73,7 @@ public class CustomerController {
 			return model;
 		}
 		if(service.isCustomerRegistered(customer.getMobileNo())==1){
+			model = new ModelAndView("redirect:/customer/register");
 			model.addObject("otp","no");
 			model.addObject("response","mobile no is registered");
 			return model;
@@ -117,8 +131,34 @@ public class CustomerController {
 		
 		session.setAttribute("user",cust);
 		session.setAttribute("user_role","customer");
+		session.setAttribute("user_name",cust.getCustomerName());
 		
-		model=new ModelAndView("customer/home");
+		model=new ModelAndView("redirect:/customer");
+		return model;
+	}
+	
+	//logout customer 
+	@RequestMapping(value="customer/logout",method=RequestMethod.GET)
+	public ModelAndView logoutCutomer(HttpSession session){
+		ModelAndView model=new ModelAndView("redirect:/customer");
+		
+		session.invalidate();
+		return model;
+	}
+	// book service
+	@RequestMapping(value="customer/book_service",method=RequestMethod.GET)
+	public ModelAndView bookService(@RequestParam int cateid,HttpSession session){
+		
+		ModelAndView model;
+		if(!isLogedin(session)){
+			model=new ModelAndView("customer/login");
+			model.addObject("msg","Please Login");
+			return model;
+		}
+		model=new ModelAndView("customer/book_service");
+
+		model.addObject("services",service.getServicesByCategoryId(cateid));
+		
 		return model;
 	}
 }
