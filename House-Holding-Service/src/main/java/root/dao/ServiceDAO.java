@@ -47,24 +47,23 @@ public class ServiceDAO {
 			}
 		});
 	}
-	
-	//check is number is registered or not
-	public int isCustomerRegistered(String phone){
-		String sql="select count(*) from customer where customer_mobileno=?";
-		
-		return template.query(sql,new PreparedStatementSetter(){
-			
-			public void setValues(PreparedStatement ps) throws SQLException{
+
+	// check is customer number is registered or not
+	public int isCustomerRegistered(String phone) {
+		String sql = "select count(*) from customer where customer_mobileno=?";
+
+		return template.query(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setString(1, phone);
 			}
-		},
-		new ResultSetExtractor<Integer>(){
-			public Integer extractData(ResultSet rs) throws SQLException{
-				
-				if(rs.next()){
-					int i=rs.getInt(1);
-					
-					if(i>0)
+		}, new ResultSetExtractor<Integer>() {
+			public Integer extractData(ResultSet rs) throws SQLException {
+
+				if (rs.next()) {
+					int i = rs.getInt(1);
+
+					if (i > 0)
 						return 1;
 					else
 						return 0;
@@ -73,29 +72,53 @@ public class ServiceDAO {
 			}
 		});
 	}
-	
+
+	// check is service provider number is registered or not
+	public int isServiceProviderRegistered(String phone) {
+		String sql = "select count(*) from service_provider where service_provider_mobileno=?";
+
+		return template.query(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, phone);
+			}
+		}, new ResultSetExtractor<Integer>() {
+			public Integer extractData(ResultSet rs) throws SQLException {
+
+				if (rs.next()) {
+					int i = rs.getInt(1);
+
+					if (i > 0)
+						return 1;
+					else
+						return 0;
+				}
+				return 0;
+			}
+		});
+	}
+
 	// validate customer and return result
-	public Customer isValidCustomer(String phone,String pass){
-		
-		String sql="select customer_id,customer_name,customer_email,customer_mobileno from customer where customer_mobileno=? and password=?";
-		
-		return template.query(sql,new PreparedStatementSetter(){
-			
-			public void setValues(PreparedStatement ps) throws SQLException{
+	public Customer isValidCustomer(String phone, String pass) {
+
+		String sql = "select customer_id,customer_name,customer_email,customer_mobileno from customer where customer_mobileno=? and password=?";
+
+		return template.query(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setString(1, phone);
 				ps.setString(2, pass);
 			}
-		},
-		new ResultSetExtractor<Customer>(){
-			public Customer extractData(ResultSet rs) throws SQLException{
-				
-				if(rs.next()){
-					Customer cust=new Customer();
+		}, new ResultSetExtractor<Customer>() {
+			public Customer extractData(ResultSet rs) throws SQLException {
+
+				if (rs.next()) {
+					Customer cust = new Customer();
 					cust.setCustomerId(rs.getInt(1));
 					cust.setCustomerName(rs.getString(2));
 					cust.setEmail(rs.getString(3));
 					cust.setMobileNo(rs.getString(4));
-					
+
 					return cust;
 				}
 				return null;
@@ -103,7 +126,36 @@ public class ServiceDAO {
 		});
 	}
 
-//**************************Insert data****************************************//	
+	// validate service provider and return result
+	public ServiceProvider isValidServiceprovider(String phone, String pass) {
+
+		String sql = "select service_provider_id,service_provider_name,service_provider_email,service_provider_mobileno from service_provider where service_provider_mobileno=? and password=?";
+
+		return template.query(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, phone);
+				ps.setString(2, pass);
+			}
+		}, new ResultSetExtractor<ServiceProvider>() {
+			public ServiceProvider extractData(ResultSet rs) throws SQLException {
+
+				if (rs.next()) {
+					ServiceProvider serpro=new ServiceProvider();
+					serpro.setServiceProviderId(rs.getInt(1));
+					serpro.setName(rs.getString(2));
+					serpro.setEmail(rs.getString(3));
+					serpro.setMobileNo(rs.getString(4));
+
+					return serpro;
+				}
+				return null;
+			}
+		});
+	}
+
+	// **************************Insert
+	// data****************************************//
 	// insert city
 	public int insertCity(City city) {
 
@@ -163,28 +215,47 @@ public class ServiceDAO {
 			}
 		});
 	}
-	
+
 	// insert customer registration details
-	public int insertCustomerDetail(Customer customer){
-		String sql="insert into customer(customer_id,customer_name,customer_email,password,area_id,address,user_status_id,customer_mobileno)"
+	public int insertCustomerDetail(Customer customer) {
+		String sql = "insert into customer(customer_id,customer_name,customer_email,password,area_id,address,user_status_id,customer_mobileno)"
 				+ "values (DEFAULT,?,?,?,?,?,?,?)";
-		
-		return template.update(sql,new PreparedStatementSetter(){
-			
-			public void setValues(PreparedStatement ps) throws SQLException{
-				ps.setString(1,customer.getCustomerName());
-				ps.setString(2,customer.getEmail());
-				ps.setString(3,customer.getPassword());
-				ps.setInt(4,Integer.parseInt(customer.getArea()));
-				ps.setString(5,customer.getAddress());
-				ps.setInt(6,Integer.parseInt(customer.getStatus()));
-				ps.setLong(7,Long.parseLong(customer.getMobileNo()));
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, customer.getCustomerName());
+				ps.setString(2, customer.getEmail());
+				ps.setString(3, customer.getPassword());
+				ps.setInt(4, Integer.parseInt(customer.getArea()));
+				ps.setString(5, customer.getAddress());
+				ps.setInt(6, Integer.parseInt(customer.getStatus()));
+				ps.setLong(7, Long.parseLong(customer.getMobileNo()));
 			}
 		});
 	}
-	
-//*****************************Select Data****************************
-	
+
+	// insert service provider registration details
+	public int insertServiceProviderDetail(ServiceProvider serpro) {
+		String sql = "insert into service_provider(service_provider_id,service_provider_name,service_provider_email,password,area_id,address,user_status_id,service_provider_mobileno)"
+				+ "values (DEFAULT,?,?,?,?,?,?,?)";
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, serpro.getName());
+				ps.setString(2, serpro.getEmail());
+				ps.setString(3, serpro.getPassword());
+				ps.setInt(4, Integer.parseInt(serpro.getArea()));
+				ps.setString(5, serpro.getAddress());
+				ps.setInt(6, Integer.parseInt(serpro.getStatus()));
+				ps.setLong(7, Long.parseLong(serpro.getMobileNo()));
+			}
+		});
+	}
+
+	// *****************************Select Data****************************
+
 	// select All City
 	public ArrayList<City> selectCity() {
 
@@ -355,7 +426,7 @@ public class ServiceDAO {
 
 	// ***************************Select by
 	// id**************************************
-	
+
 	// select single area by id
 	public Area selectArea(int id) {
 		String sql = "select * from area where area_id=?";
@@ -432,35 +503,34 @@ public class ServiceDAO {
 			}
 		});
 	}
-	
-	//select service by category id
-	public ArrayList<Services> selectServiceByCategoryId(int cateid){
-		String sql="select * from services where service_category_id=?";
-		
-		return template.query(sql,new PreparedStatementSetter(){
-			public void setValues(PreparedStatement ps) throws SQLException{
+
+	// select service by category id
+	public ArrayList<Services> selectServiceByCategoryId(int cateid) {
+		String sql = "select * from services where service_category_id=?";
+
+		return template.query(sql, new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, cateid);
 			}
-		},
-		new ResultSetExtractor<ArrayList<Services>>(){
-			public ArrayList<Services> extractData(ResultSet rs) throws SQLException{
-				
-				ArrayList<Services> ser=new ArrayList<>();
-				
-				while(rs.next()){
-					Services s=new Services();
+		}, new ResultSetExtractor<ArrayList<Services>>() {
+			public ArrayList<Services> extractData(ResultSet rs) throws SQLException {
+
+				ArrayList<Services> ser = new ArrayList<>();
+
+				while (rs.next()) {
+					Services s = new Services();
 					s.setServiceId(rs.getInt(1));
 					s.setServiceCateId(rs.getInt(2));
 					s.setServiceName(rs.getString(3));
 					s.setServiceDesc(rs.getString(4));
-					
+
 					ser.add(s);
 				}
 				return ser;
 			}
 		});
 	}
-	
+
 	// select service category by id
 	public ServiceCategory selectServiceCategory(int id) {
 		String sql = "select * from service_category where service_category_id=?";
@@ -486,31 +556,30 @@ public class ServiceDAO {
 			}
 		});
 	}
-	
-	//select area by city id
-	public ArrayList<Area> selectAreaByCityId(int id){
-		
-		String sql="select * from area where city_id=?";
-		
-		return template.query(sql,new PreparedStatementSetter(){
-			
-			public void setValues(PreparedStatement ps) throws SQLException{
+
+	// select area by city id
+	public ArrayList<Area> selectAreaByCityId(int id) {
+
+		String sql = "select * from area where city_id=?";
+
+		return template.query(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, id);
 			}
-		},
-		new ResultSetExtractor<ArrayList<Area>>(){
-			
-			public ArrayList<Area> extractData(ResultSet rs) throws SQLException{
-				
-				ArrayList<Area> al=new ArrayList<>();
-				
-				while(rs.next()){
-					Area a=new Area();
-					
+		}, new ResultSetExtractor<ArrayList<Area>>() {
+
+			public ArrayList<Area> extractData(ResultSet rs) throws SQLException {
+
+				ArrayList<Area> al = new ArrayList<>();
+
+				while (rs.next()) {
+					Area a = new Area();
+
 					a.setAreaId(rs.getInt(1));
 					a.setCityId(rs.getInt(2));
 					a.setAreaName(rs.getString(3));
-					
+
 					al.add(a);
 				}
 				return al;
@@ -580,23 +649,22 @@ public class ServiceDAO {
 			}
 		});
 	}
-	
-	//Update user status
-	public int updateUserStatus(int user_type,Customer cust){
-		String sql="";
-		
-		if(user_type==1){
-			sql="update customer set user_status_id=? where customer_id=?";
+
+	// Update user status
+	public int updateUserStatus(int user_type, Customer cust) {
+		String sql = "";
+
+		if (user_type == 1) {
+			sql = "update customer set user_status_id=? where customer_id=?";
+		} else if (user_type == 2) {
+			sql = "update service_provider set user_status_id=? where service_provider_id=?";
 		}
-		else if(user_type==2){
-			sql="update service_provider set user_status_id=? where service_provider_id=?";
-		}
-		
-		return template.update(sql,new PreparedStatementSetter(){
-			
-			public void setValues(PreparedStatement ps) throws SQLException{
-				ps.setInt(1,Integer.parseInt(cust.getStatus()));
-				ps.setInt(2,cust.getCustomerId());
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, Integer.parseInt(cust.getStatus()));
+				ps.setInt(2, cust.getCustomerId());
 			}
 		});
 	}
