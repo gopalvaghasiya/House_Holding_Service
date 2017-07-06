@@ -28,7 +28,7 @@
             <div class="row">
             <h4>${msg}</h4>
                 <div class="col-lg-12 text-center">
-                    <h2>Login</h2>
+                    <h3>Service Provider - Login </h3>
                     <hr class="star-primary">
                 </div>
             </div>
@@ -37,7 +37,7 @@
                     <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
                     <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
                     <h4>${response}</h4>
-                    <form method="post" action="/customer/login">
+                    <form method="post" action="/serviceprovider/login">
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label for="phone">Phone Number</label>
@@ -48,7 +48,7 @@
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label>Password</label>
-                                <input type="password" class="form-control" name="pass" placeholder="Password" id="" title="Plese enter Password.">
+                                <input type="password" class="form-control" name="pass" placeholder="Password" id="" title="Please enter your email address.">
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-xs-12">
-								<a href="/customer/register">For Signup Click here</a>
+								<a href="/serviceprovider/register">For Sign Up Click here</a>
                             </div>
                         </div>
                     </form>

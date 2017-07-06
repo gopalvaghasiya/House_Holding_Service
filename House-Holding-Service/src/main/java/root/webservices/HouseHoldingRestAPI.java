@@ -36,10 +36,16 @@ public class HouseHoldingRestAPI {
 
 	// check is customer mobile no is registered
 	@RequestMapping(value = "/rest_customer_isregistered/{phone}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Integer> isCustomerRegistered(@PathVariable("phone") String phone){
+	public ResponseEntity<Integer> isCustomerRegistered(@PathVariable("phone") String phone) {
 		return new ResponseEntity<Integer>(dataAccess.isCustomerRegistered(phone), HttpStatus.OK);
 	}
-	
+
+	// check is service provider mobile no is registered
+	@RequestMapping(value = "/rest_serviceprovider_isregistered/{phone}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Integer> isServiceProviderRegistered(@PathVariable("phone") String phone) {
+		return new ResponseEntity<Integer>(dataAccess.isServiceProviderRegistered(phone), HttpStatus.OK);
+	}
+
 	// customer login
 	@RequestMapping(value = "/rest_customer_login/{phone}/{password}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Customer> getLoginAccessForCustomer(@PathVariable("phone") String phone,
@@ -48,6 +54,13 @@ public class HouseHoldingRestAPI {
 		return new ResponseEntity<Customer>(dataAccess.isValidCustomer(phone, password), HttpStatus.OK);
 	}
 	
+	// service provider login
+	@RequestMapping(value="/rest_serviceprovider_login/{phone}/{password}",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ServiceProvider> getLogginAccessForServiceProvider(@PathVariable("phone") String phone,
+			@PathVariable("password")String password){
+		return new ResponseEntity<ServiceProvider>(dataAccess.isValidServiceprovider(phone, password),HttpStatus.OK);
+	}
+
 	// *************************Insert
 	// Data*************************************//
 
@@ -77,11 +90,17 @@ public class HouseHoldingRestAPI {
 	}
 
 	// insert customer details
-	@RequestMapping(value="/rest_insert_customer",method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE)
-	public Integer insertCustomer(@RequestBody Customer customer){
+	@RequestMapping(value = "/rest_insert_customer", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Integer insertCustomer(@RequestBody Customer customer) {
 		return dataAccess.insertCustomerDetail(customer);
 	}
 	
+	// insert service provider details
+	@RequestMapping(value = "/rest_insert_serviceprovider", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Integer insertServiceProvider(@RequestBody ServiceProvider serpro) {
+		return dataAccess.insertServiceProviderDetail(serpro);
+	}	
+
 	// **************************Update***********************************************
 	// Update area
 	@RequestMapping(value = "/rest_update_area", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -180,11 +199,11 @@ public class HouseHoldingRestAPI {
 	}
 
 	// select services by category id
-	@RequestMapping(value="rest_select_services_by_cate_id/{cateid}",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ArrayList<Services>> selectServicesByCateId(@PathVariable("cateid")int cateid){
-		return new ResponseEntity<ArrayList<Services>>(dataAccess.selectServiceByCategoryId(cateid),HttpStatus.OK);
+	@RequestMapping(value = "rest_select_services_by_cate_id/{cateid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<Services>> selectServicesByCateId(@PathVariable("cateid") int cateid) {
+		return new ResponseEntity<ArrayList<Services>>(dataAccess.selectServiceByCategoryId(cateid), HttpStatus.OK);
 	}
-	
+
 	// select Service category by id
 	@RequestMapping(value = "rest_select_service_category_by_id/{sercate_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ServiceCategory> selectServiceCategoryById(@PathVariable("sercate_id") int sercate_id) {

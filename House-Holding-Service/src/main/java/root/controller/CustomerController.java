@@ -145,6 +145,7 @@ public class CustomerController {
 		session.invalidate();
 		return model;
 	}
+	
 	// book service
 	@RequestMapping(value="customer/book_service",method=RequestMethod.GET)
 	public ModelAndView bookService(@RequestParam int cateid,HttpSession session){

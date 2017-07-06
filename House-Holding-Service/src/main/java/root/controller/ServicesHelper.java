@@ -45,7 +45,7 @@ public class ServicesHelper {
 	}
 
 	// check customer is regitered or not
-	@Value("${customer.isregitered}")
+	@Value("${customer.isregistered}")
 	private String custIsRegistered;
 
 	public int isCustomerRegistered(String phone) {
@@ -71,6 +71,23 @@ public class ServicesHelper {
 
 		return res.getForEntity(custLogin, Customer.class, hm).getBody();
 	}
+
+// ***************************Service Provider********************************//
+	
+	// check service provider is regitered or not
+	@Value("${serviceprovider.isregistered}")
+	private String serproIsRegistered;
+
+	public int isServiceProviderRegistered(String phone) {
+
+		RestTemplate rest = new RestTemplate();
+
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("phone", phone);
+
+		return rest.getForEntity(serproIsRegistered, Integer.class, hm).getBody();
+	}
+
 	// *************************Insert Data*****************************//
 
 	// customer registration
@@ -82,13 +99,37 @@ public class ServicesHelper {
 
 		return rest.postForObject(insCust, customer, Integer.class);
 	}
+	
+	// service provider registration
+	@Value("${serviceprovider.insert}")
+	private String insSerPro;
+
+	public int registration(ServiceProvider serpro) {
+		RestTemplate rest = new RestTemplate();
+
+		return rest.postForObject(insSerPro, serpro, Integer.class);
+	}
+	
+	@Value("${serviceprovider.login}")
+	private String serproLogin;
+	
+	// service provider lgin
+	public ServiceProvider isValidSerPro(String phone, String password) {
+		RestTemplate res = new RestTemplate();
+
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("phone", phone);
+		hm.put("password", password);
+
+		return res.getForEntity(serproLogin, ServiceProvider.class, hm).getBody();
+	}	
 
 	// ************************GET DATA*********************************//
 
 	// get cities
 	@Value("${selectall.city}")
 	private String selectAllCity;
-	
+
 	public City[] getCitys() {
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -101,24 +142,24 @@ public class ServicesHelper {
 	// get service cetegories
 	@Value("${selectall.servicecategory}")
 	private String selectAllServiceCate;
-	
+
 	public ServiceCategory[] getServiceCategory() {
 		RestTemplate restTemplate = new RestTemplate();
 
 		return restTemplate.getForEntity(selectAllServiceCate, ServiceCategory[].class).getBody();
 	}
-	
-	//*************************Select data by id****************************//
-	
+
+	// *************************Select data by id****************************//
+
 	@Value("${select.services.by.cateid}")
 	private String serviceByCateId;
-	
-	public Services[] getServicesByCategoryId(int cateid){
-		RestTemplate rest=new RestTemplate();
-		HashMap<String,Integer> hm=new HashMap<>();
-		
-		hm.put("cateid",cateid);
+
+	public Services[] getServicesByCategoryId(int cateid) {
+		RestTemplate rest = new RestTemplate();
+		HashMap<String, Integer> hm = new HashMap<>();
+
+		hm.put("cateid", cateid);
 		return rest.getForEntity(serviceByCateId, Services[].class, hm).getBody();
 	}
-	
+
 }
