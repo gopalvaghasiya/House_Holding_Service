@@ -21,35 +21,43 @@ public class ServiceProviderController {
 
 	@Autowired
 	ServicesHelper service;
-	
-	//check service provider is logged in or not
-	public boolean isLogedin(HttpSession session){
-	
-		String user_role=(String)session.getAttribute("user_role");
-		if(user_role!=null && user_role.equals("serviceprovider")){
+
+	// test
+	@RequestMapping(value = "test", method = RequestMethod.GET)
+	public ModelAndView test() {
+
+		ModelAndView model = new ModelAndView("serviceprovider/test");
+		return model;
+	}
+
+	// check service provider is logged in or not
+	public boolean isLogedin(HttpSession session) {
+
+		String user_role = (String) session.getAttribute("user_role");
+		if (user_role != null && user_role.equals("serviceprovider")) {
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}
-	
-	//request for home page
-	@RequestMapping(value="serviceprovider/home",method=RequestMethod.GET)
-	public ModelAndView moveToHomePage(HttpSession session){
-		
+
+	// request for home page
+	@RequestMapping(value = "serviceprovider/home", method = RequestMethod.GET)
+	public ModelAndView moveToHomePage(HttpSession session) {
+
 		ModelAndView model;
-		
-		if(!isLogedin(session)){
-			model=new ModelAndView("serviceprovider/login");
-			model.addObject("msg","Pleasse Login");
+
+		if (!isLogedin(session)) {
+			model = new ModelAndView("serviceprovider/login");
+			model.addObject("msg", "Pleasse Login");
 			return model;
 		}
-		
-		model=new ModelAndView("serviceprovider/home");
-		
+
+		model = new ModelAndView("serviceprovider/home");
+
 		return model;
 	}
+
 	// request for access web
 	@RequestMapping(value = "serviceprovider", method = RequestMethod.GET)
 	public ModelAndView goToHomePage() {
@@ -123,7 +131,8 @@ public class ServiceProviderController {
 
 	// login of service provider
 	@RequestMapping(value = "serviceprovider/login", method = RequestMethod.POST)
-	public ModelAndView serviceProviderLogin(@RequestParam String phone, @RequestParam String pass, HttpSession session) {
+	public ModelAndView serviceProviderLogin(@RequestParam String phone, @RequestParam String pass,
+			HttpSession session) {
 
 		ModelAndView model;
 
@@ -142,13 +151,42 @@ public class ServiceProviderController {
 		model = new ModelAndView("redirect:/serviceprovider/home");
 		return model;
 	}
-	
-	//logout service provider 
-	@RequestMapping(value="serviceprovider/logout",method=RequestMethod.GET)
-	public ModelAndView logoutServiceProvider(HttpSession session){
-		ModelAndView model=new ModelAndView("redirect:/serviceprovider");
+
+	// profile of service provider
+	@RequestMapping(value = "serviceprovider/profile", method = RequestMethod.GET)
+	public ModelAndView serviceproviderProfile(HttpSession session) {
+		ModelAndView model;
 		
+		if(!isLogedin(session)){
+			model=new ModelAndView("redirect:/serviceprovider");
+			return model;
+		}
+		model= new ModelAndView("serviceprovider/profile");
+
+		return model;
+	}
+	
+	// logout service provider
+	@RequestMapping(value = "serviceprovider/logout", method = RequestMethod.GET)
+	public ModelAndView logoutServiceProvider(HttpSession session) {
+		ModelAndView model = new ModelAndView("redirect:/serviceprovider");
+
 		session.invalidate();
+		return model;
+	}
+	
+	// add My Service 
+	@RequestMapping(value = "serviceprovider/add_service", method = RequestMethod.GET)
+	public ModelAndView addMyService(HttpSession session) {
+		
+		ModelAndView model;
+		if(!isLogedin(session)){
+			model=new ModelAndView("redirect:/serviceprovider");
+			return model;
+		}
+		
+		model= new ModelAndView("serviceprovider/add_service");
+		model.addObject("categories",service.getServiceCategory());
 		return model;
 	}	
 }

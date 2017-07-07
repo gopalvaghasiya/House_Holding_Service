@@ -7,7 +7,13 @@
                     <ul class="sidebar-menu">
                         <li class="active">
                             <a href="/admin/home">
-                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                                <i class="fa fa-gavel"></i> <span>View My Services</span>
+                            </a>
+                        </li>
+                        
+                        <li class="active">
+                            <a href="/serviceprovider/add_service">
+                                <i class="fa fa-gavel"></i> <span>Add My Services</span>
                             </a>
                         </li>
                         

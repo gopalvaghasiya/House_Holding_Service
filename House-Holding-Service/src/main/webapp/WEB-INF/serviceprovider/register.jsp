@@ -13,7 +13,7 @@
 
 <title>registration</title>
 
-<%@include file="include-css.jsp"%>
+<%@include file="../customer/include-css.jsp"%>
 </head>
 
 <body id="page-top" class="index">
@@ -168,7 +168,7 @@
 	</div>
 	</section>
 	<script src="/resources/user/js/register.js"></script>
-	<%@include file="include-js.jsp"%>
+	<%@include file="../customer/include-js.jsp"%>
 </body>
 
 </html>

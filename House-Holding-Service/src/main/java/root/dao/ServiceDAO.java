@@ -253,6 +253,47 @@ public class ServiceDAO {
 			}
 		});
 	}
+	
+	// insert service provider skill it return 0 if service already added other wise return 1
+	public int insertServiceProviderSkill(int serpro_id,int service_id){
+		
+		String sql="select * from skill where service_provider_id=? ans service_id=?";
+		
+		int i=template.query(sql,new PreparedStatementSetter(){
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setInt(1, serpro_id);
+				ps.setInt(2, service_id);
+			}
+		},
+		new ResultSetExtractor<Integer>(){
+			
+			public Integer extractData(ResultSet rs) throws SQLException{
+				
+				if(rs.next()){
+					int i=rs.getInt(1);
+					
+					if(i>0){
+						return 1;
+					}
+					else return 0;
+				}
+				return 0;
+			}
+		});
+		
+		if(i==1){
+			return 0;
+		}
+		
+		sql="insert into skill(skill_id,service_provider_id,service_id) values(DEFAULT,?,?)";
+		
+		return template.update(sql,new PreparedStatementSetter(){
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setInt(1, serpro_id);
+				ps.setInt(2, service_id);
+			}
+		});
+	}
 
 	// *****************************Select Data****************************
 

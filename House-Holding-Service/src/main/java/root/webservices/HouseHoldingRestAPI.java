@@ -99,6 +99,12 @@ public class HouseHoldingRestAPI {
 	@RequestMapping(value = "/rest_insert_serviceprovider", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Integer insertServiceProvider(@RequestBody ServiceProvider serpro) {
 		return dataAccess.insertServiceProviderDetail(serpro);
+	}
+	
+	// inser service provider skill(service)
+	@RequestMapping(value = "/rest_insert_serviceprovider_skill", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Integer insertServiceProviderSkill(@RequestBody Skill skill) {
+		return dataAccess.insertServiceProviderSkill(skill.getServiceProviderId(), skill.getServiceId());
 	}	
 
 	// **************************Update***********************************************

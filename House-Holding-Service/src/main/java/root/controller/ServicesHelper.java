@@ -110,10 +110,20 @@ public class ServicesHelper {
 		return rest.postForObject(insSerPro, serpro, Integer.class);
 	}
 	
+	// add service provider skill
+	@Value("${serviceprovider.insert.skill}")
+	private String insSerproSkill;
+
+	public int insertSerProSkill(Skill skill) {
+		RestTemplate rest = new RestTemplate();
+
+		return rest.postForObject(insSerproSkill, skill, Integer.class);
+	}	
+	
+	// service provider lgin
 	@Value("${serviceprovider.login}")
 	private String serproLogin;
 	
-	// service provider lgin
 	public ServiceProvider isValidSerPro(String phone, String password) {
 		RestTemplate res = new RestTemplate();
 
@@ -139,7 +149,7 @@ public class ServicesHelper {
 		return citys;
 	}
 
-	// get service cetegories
+	// get service categories
 	@Value("${selectall.servicecategory}")
 	private String selectAllServiceCate;
 
