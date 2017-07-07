@@ -14,7 +14,7 @@
 
     <title>Login</title>
 
-    <%@include file="include-css.jsp" %>
+    <%@include file="../customer/include-css.jsp" %>
 </head>
 
 <body id="page-top" class="index">
@@ -41,14 +41,14 @@
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label for="phone">Phone Number</label>
-                                <input type="tel" class="form-control" placeholder="Phone Number" name="phone" id="phone" title="Please enter your phone number.">
+                                <input type="text" class="form-control" placeholder="Phone Number" name="phone" id="phone" title="Please enter your phone number." pattern="[0-9]{10}" required>
                                 
                             </div>
                         </div>
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label>Password</label>
-                                <input type="password" class="form-control" name="pass" placeholder="Password" id="" title="Please enter your email address.">
+                                <input type="password" class="form-control" name="pass" placeholder="Password" id="" title="Please enter your email address." required>
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
     </section>
 
  
-<%@include file="include-js.jsp" %>
+<%@include file="../customer/include-js.jsp" %>
 </body>
 
 </html>
