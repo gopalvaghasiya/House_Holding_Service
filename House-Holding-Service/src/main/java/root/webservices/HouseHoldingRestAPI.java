@@ -101,7 +101,7 @@ public class HouseHoldingRestAPI {
 		return dataAccess.insertServiceProviderDetail(serpro);
 	}
 	
-	// inser service provider skill(service)
+	// insert service provider skill(service)
 	@RequestMapping(value = "/rest_insert_serviceprovider_skill", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Integer insertServiceProviderSkill(@RequestBody Skill skill) {
 		return dataAccess.insertServiceProviderSkill(skill.getServiceProviderId(), skill.getServiceId());
@@ -227,6 +227,11 @@ public class HouseHoldingRestAPI {
 		return new ResponseEntity<ArrayList<Area>>(dataAccess.selectAreaByCityId(cityId), HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "rest_select_skill_by_sp_id/{spi}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<ServicesJCategory>> selectSkillBySPI(@PathVariable("spi") int spi) {
+		return new ResponseEntity<ArrayList<ServicesJCategory>>(dataAccess.selectSkill(spi), HttpStatus.OK);
+	}
+
 	// ****************************************DELETE*********************************//
 
 	// delete area by id
@@ -251,5 +256,11 @@ public class HouseHoldingRestAPI {
 	@RequestMapping(value = "rest_delete_service_category_by_id/{cate_id}", method = RequestMethod.DELETE)
 	public Integer deleteServiceCategory(@PathVariable("cate_id") int cate_id) {
 		return dataAccess.deleteServiceCategory(cate_id);
+	}
+	
+	// delete skill by id
+	@RequestMapping(value = "rest_delete_sp_skill_by_id/{skill_id}", method = RequestMethod.DELETE)
+	public Integer deleteServiceProvideSkill(@PathVariable("skill_id") int skill_id) {
+		return dataAccess.deleteServiceProviderSkill(skill_id);
 	}
 }

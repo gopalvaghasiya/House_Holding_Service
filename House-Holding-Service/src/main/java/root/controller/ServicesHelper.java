@@ -74,7 +74,7 @@ public class ServicesHelper {
 
 // ***************************Service Provider********************************//
 	
-	// check service provider is regitered or not
+	// check service provider is registered or not
 	@Value("${serviceprovider.isregistered}")
 	private String serproIsRegistered;
 
@@ -87,7 +87,34 @@ public class ServicesHelper {
 
 		return rest.getForEntity(serproIsRegistered, Integer.class, hm).getBody();
 	}
+	
+	// select service provider skill
+	@Value("${serviceprovider.select.skill}")
+	private String serproSkill;
 
+	public ServicesJCategory[] selectServiceProviderSkill(int spi) {
+
+		RestTemplate rest = new RestTemplate();
+
+		HashMap<String, Integer> hm = new HashMap<>();
+		hm.put("spi", spi);
+
+		return rest.getForEntity(serproSkill, ServicesJCategory[].class, hm).getBody();
+	}
+	
+	// select service provider skill
+	@Value("${serviceprovider.delete.skill}")
+	private String serproDelSkill;
+
+	public void deleteSerProSkill(int skill_id) {
+
+		RestTemplate rest = new RestTemplate();
+
+		HashMap<String, Integer> hm = new HashMap<>();
+		hm.put("skill_id", skill_id);
+
+		rest.delete(serproDelSkill, hm);
+	}
 	// *************************Insert Data*****************************//
 
 	// customer registration
@@ -110,7 +137,7 @@ public class ServicesHelper {
 		return rest.postForObject(insSerPro, serpro, Integer.class);
 	}
 	
-	// add service provider skill
+	// add service provider skill return 0 if services already added other wise 1
 	@Value("${serviceprovider.insert.skill}")
 	private String insSerproSkill;
 
@@ -120,7 +147,7 @@ public class ServicesHelper {
 		return rest.postForObject(insSerproSkill, skill, Integer.class);
 	}	
 	
-	// service provider lgin
+	// service provider login
 	@Value("${serviceprovider.login}")
 	private String serproLogin;
 	
