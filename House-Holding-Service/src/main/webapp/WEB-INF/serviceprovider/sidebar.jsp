@@ -6,7 +6,7 @@
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                         <li class="active">
-                            <a href="/admin/home">
+                            <a href="/serviceprovider/view_service">
                                 <i class="fa fa-gavel"></i> <span>View My Services</span>
                             </a>
                         </li>

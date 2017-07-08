@@ -22,13 +22,6 @@ public class ServiceProviderController {
 	@Autowired
 	ServicesHelper service;
 
-	// test
-	@RequestMapping(value = "test", method = RequestMethod.GET)
-	public ModelAndView test() {
-
-		ModelAndView model = new ModelAndView("serviceprovider/test");
-		return model;
-	}
 
 	// check service provider is logged in or not
 	public boolean isLogedin(HttpSession session) {
@@ -62,7 +55,7 @@ public class ServiceProviderController {
 	@RequestMapping(value = "serviceprovider", method = RequestMethod.GET)
 	public ModelAndView goToHomePage() {
 
-		ModelAndView model = new ModelAndView("serviceprovider/login");
+		ModelAndView model = new ModelAndView("redirect:/serviceprovider/home");
 		return model;
 	}
 
@@ -144,7 +137,7 @@ public class ServiceProviderController {
 			return model;
 		}
 
-		session.setAttribute("user", serpro);
+		session.setAttribute("user", serpro.getServiceProviderId());
 		session.setAttribute("user_role", "serviceprovider");
 		session.setAttribute("user_name", serpro.getName());
 
@@ -175,7 +168,7 @@ public class ServiceProviderController {
 		return model;
 	}
 	
-	// add My Service 
+	// request add My Service page
 	@RequestMapping(value = "serviceprovider/add_service", method = RequestMethod.GET)
 	public ModelAndView addMyService(HttpSession session) {
 		
@@ -188,5 +181,61 @@ public class ServiceProviderController {
 		model= new ModelAndView("serviceprovider/add_service");
 		model.addObject("categories",service.getServiceCategory());
 		return model;
-	}	
+	}
+	
+	// add My Service 
+	@RequestMapping(value = "serviceprovider/add_service", method = RequestMethod.POST)
+	public ModelAndView addMyService(@RequestParam int service_id,HttpSession session) {
+		
+		ModelAndView model;
+		if(!isLogedin(session)){
+			model=new ModelAndView("redirect:/serviceprovider");
+			return model;
+		}
+
+		Skill skill=new Skill();
+		skill.setServiceId(service_id);
+		skill.setServiceProviderId((int)session.getAttribute("user"));
+		
+		int status=service.insertSerProSkill(skill);
+		
+		model= new ModelAndView("serviceprovider/add_service");
+		if(status==0){
+			model.addObject("response","Service already added");
+			return model;
+		}
+		model.addObject("response","Service added successfully");
+		model.addObject("categories",service.getServiceCategory());
+		return model;
+	}
+	
+	// request View My Service page
+	@RequestMapping(value = "serviceprovider/view_service", method = RequestMethod.GET)
+	public ModelAndView viewMyService(HttpSession session) {
+		
+		ModelAndView model;
+		if(!isLogedin(session)){
+			model=new ModelAndView("redirect:/serviceprovider");
+			return model;
+		}
+		
+		model= new ModelAndView("serviceprovider/view_service");
+		model.addObject("skills",service.selectServiceProviderSkill((int)session.getAttribute("user")));
+		return model;
+	}
+	
+	// delete skill
+	@RequestMapping(value = "serviceprovider/delete_skill", method = RequestMethod.GET)
+	public ModelAndView deleteSkill(@RequestParam int skill_id,HttpSession session) {
+		
+		ModelAndView model;
+		if(!isLogedin(session)){
+			model=new ModelAndView("redirect:/serviceprovider");
+			return model;
+		}
+		
+		model= new ModelAndView("redirect:/serviceprovider/view_service");
+		service.deleteSerProSkill(skill_id);
+		return model;
+	}
 }

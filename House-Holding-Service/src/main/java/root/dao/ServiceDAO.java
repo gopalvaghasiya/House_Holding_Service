@@ -4,12 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
 
 import root.model.*;
 
@@ -18,6 +16,7 @@ public class ServiceDAO {
 	JdbcTemplate template;
 
 	public void setTemplate(JdbcTemplate template) {
+
 		this.template = template;
 	}
 
@@ -141,7 +140,7 @@ public class ServiceDAO {
 			public ServiceProvider extractData(ResultSet rs) throws SQLException {
 
 				if (rs.next()) {
-					ServiceProvider serpro=new ServiceProvider();
+					ServiceProvider serpro = new ServiceProvider();
 					serpro.setServiceProviderId(rs.getInt(1));
 					serpro.setName(rs.getString(2));
 					serpro.setEmail(rs.getString(3));
@@ -253,42 +252,42 @@ public class ServiceDAO {
 			}
 		});
 	}
-	
-	// insert service provider skill it return 0 if service already added other wise return 1
-	public int insertServiceProviderSkill(int serpro_id,int service_id){
-		
-		String sql="select * from skill where service_provider_id=? ans service_id=?";
-		
-		int i=template.query(sql,new PreparedStatementSetter(){
-			public void setValues(PreparedStatement ps) throws SQLException{
+
+	// insert service provider skill it return 0 if service already added other
+	// wise return 1
+	public int insertServiceProviderSkill(int serpro_id, int service_id) {
+
+		String sql = "select * from skill where service_provider_id=? and service_id=?";
+
+		int i = template.query(sql, new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, serpro_id);
 				ps.setInt(2, service_id);
 			}
-		},
-		new ResultSetExtractor<Integer>(){
-			
-			public Integer extractData(ResultSet rs) throws SQLException{
-				
-				if(rs.next()){
-					int i=rs.getInt(1);
-					
-					if(i>0){
+		}, new ResultSetExtractor<Integer>() {
+
+			public Integer extractData(ResultSet rs) throws SQLException {
+
+				if (rs.next()) {
+					int i = rs.getInt(1);
+
+					if (i > 0) {
 						return 1;
-					}
-					else return 0;
+					} else
+						return 0;
 				}
 				return 0;
 			}
 		});
-		
-		if(i==1){
+
+		if (i == 1) {
 			return 0;
 		}
-		
-		sql="insert into skill(skill_id,service_provider_id,service_id) values(DEFAULT,?,?)";
-		
-		return template.update(sql,new PreparedStatementSetter(){
-			public void setValues(PreparedStatement ps) throws SQLException{
+
+		sql = "insert into skill(skill_id,service_provider_id,service_id) values(DEFAULT,?,?)";
+
+		return template.update(sql, new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, serpro_id);
 				ps.setInt(2, service_id);
 			}
@@ -628,6 +627,45 @@ public class ServiceDAO {
 		});
 	}
 
+	// select skill join service join service category by service provider id
+	public ArrayList<ServicesJCategory> selectSkill(int spi) {
+		String sql = "select skill.skill_id,service_category.category_name,services.service_name,services.service_description"
+				+ " from skill join services on skill.service_id=services.service_id "
+				+ "join public.service_category on services.service_category_id=service_category.service_category_id "
+				+ "where skill.service_provider_id=?";
+
+		return template.query(sql,new PreparedStatementSetter(){
+			
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setInt(1, spi);
+			}
+		}
+		, new ResultSetExtractor<ArrayList<ServicesJCategory>>() {
+
+			public ArrayList<ServicesJCategory> extractData(ResultSet rs) throws SQLException {
+				ArrayList<ServicesJCategory> al = new ArrayList<>();
+
+				while (rs.next()) {
+					ServicesJCategory tmp = new ServicesJCategory();
+					Services ser = new Services();
+					ServiceCategory sc = new ServiceCategory();
+
+					ser.setServiceId(rs.getInt(1));
+					sc.setCateName(rs.getString(2));
+					ser.setServiceName(rs.getString(3));
+					ser.setServiceDesc(rs.getString(4));
+
+					tmp.setServices(ser);
+					tmp.setServiceCategory(sc);
+
+					al.add(tmp);
+				}
+				return al;
+			}
+
+		});
+	}
+
 	// ******************************UPDATE*******************************
 
 	// update area
@@ -757,6 +795,18 @@ public class ServiceDAO {
 
 			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, service_category_id);
+			}
+		});
+	}
+	
+	// delete service provider skill
+	public int deleteServiceProviderSkill(int skill_id) {
+		String sql = "delete from skill where skill_id=?";
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, skill_id);
 			}
 		});
 	}

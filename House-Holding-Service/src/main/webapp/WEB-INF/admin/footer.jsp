@@ -27,6 +27,6 @@
         <script src="/resources/admin/js/AdminLTE/app.js" type="text/javascript"></script>
         
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="/resources/admin/js/AdminLTE/dashboard.js" type="text/javascript"></script>        
-		<script src="/resources/admin/js/plugins/morris/morris.min.js" type="text/javascript"></script>
-        
+     <!--   <script src="/resources/admin/js/AdminLTE/dashboard.js" type="text/javascript"></script>        
+	  	<script src="/resources/admin/js/plugins/morris/morris.min.js" type="text/javascript"></script>
+        -->

@@ -36,7 +36,7 @@
 			</div>
 			<!-- /.box-header -->
 			<!-- form start -->
-			<form role="form" method="POST" action="/admin/add_area">
+			<form role="form" method="POST" action="/serviceprovider/add_service">
 				<div class="box-body">
 					<div class="form-group">
 						<label>Select Service Category</label>
