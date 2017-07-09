@@ -162,4 +162,21 @@ public class CustomerController {
 		
 		return model;
 	}
+	
+	// show service provider
+	@RequestMapping(value="customer/show_serviceprovider",method=RequestMethod.POST)
+	public ModelAndView showServiceProvider(@RequestParam int service_id,HttpSession session){
+		
+		ModelAndView model;
+		if(!isLogedin(session)){
+			model=new ModelAndView("customer/login");
+			model.addObject("msg","Please Login");
+			return model;
+		}
+		model=new ModelAndView("customer/show_service_provider");
+
+		model.addObject("serpro",service.selectServiceProviderByServiceId(service_id));
+		
+		return model;
+	}
 }

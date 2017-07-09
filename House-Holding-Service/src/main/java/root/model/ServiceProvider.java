@@ -1,5 +1,8 @@
 package root.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ServiceProvider {
 
 	private int serviceProviderId;

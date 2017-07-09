@@ -231,6 +231,11 @@ public class HouseHoldingRestAPI {
 	public ResponseEntity<ArrayList<ServicesJCategory>> selectSkillBySPI(@PathVariable("spi") int spi) {
 		return new ResponseEntity<ArrayList<ServicesJCategory>>(dataAccess.selectSkill(spi), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "rest_select_serpro_by_service_id/{service_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<ServiceProvider>> selectSPbyServiceId(@PathVariable("service_id") int serviceid) {
+		return new ResponseEntity<ArrayList<ServiceProvider>>(dataAccess.selectServiceProviderByServiceId(serviceid), HttpStatus.OK);
+	}
 
 	// ****************************************DELETE*********************************//
 

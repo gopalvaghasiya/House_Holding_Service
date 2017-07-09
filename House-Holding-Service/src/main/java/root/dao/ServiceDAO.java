@@ -665,6 +665,32 @@ public class ServiceDAO {
 
 		});
 	}
+	
+	public ArrayList<ServiceProvider> selectServiceProviderByServiceId(int service_id){
+		String  sql="select service_provider.service_provider_id,service_provider.service_provider_name,service_provider.service_provider_mobileno,service_provider.address from "
+					+"public.skill join public.service_provider on skill.service_provider_id=service_provider.service_provider_id where skill.service_id=?";
+		
+		return template.query(sql, new PreparedStatementSetter(){
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setInt(1,service_id);
+			}
+		},new ResultSetExtractor<ArrayList<ServiceProvider>>(){
+			public ArrayList<ServiceProvider> extractData(ResultSet rs) throws SQLException{
+				ArrayList<ServiceProvider> spal=new ArrayList<>();
+				
+				while(rs.next()){
+					ServiceProvider sp=new ServiceProvider();
+					sp.setServiceProviderId(rs.getInt(1));
+					sp.setName(rs.getString(2));
+					sp.setMobileNo(rs.getString(3));
+					sp.setAddress(rs.getString(4));
+					
+					spal.add(sp);
+				}
+				return spal;
+			}
+		});
+	}
 
 	// ******************************UPDATE*******************************
 
