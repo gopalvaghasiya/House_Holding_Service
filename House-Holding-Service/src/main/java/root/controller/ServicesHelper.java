@@ -115,6 +115,21 @@ public class ServicesHelper {
 
 		rest.delete(serproDelSkill, hm);
 	}
+	
+	// select service provider by service id
+	@Value("${serviceprovider.select.byserviceid}")
+	private String selSerProByServiceId;
+
+	public ServiceProvider[] selectServiceProviderByServiceId(int service_id) {
+
+		RestTemplate rest = new RestTemplate();
+
+		HashMap<String, Integer> hm = new HashMap<>();
+		hm.put("service_id", service_id);
+		
+		return rest.getForEntity(selSerProByServiceId,ServiceProvider[].class,hm).getBody();
+	}
+	
 	// *************************Insert Data*****************************//
 
 	// customer registration
