@@ -129,7 +129,7 @@ public class CustomerController {
 			return model;
 		}
 		
-		session.setAttribute("user",cust);
+		session.setAttribute("user",cust.getCustomerId());
 		session.setAttribute("user_role","customer");
 		session.setAttribute("user_name",cust.getCustomerName());
 		
@@ -173,9 +173,30 @@ public class CustomerController {
 			model.addObject("msg","Please Login");
 			return model;
 		}
+		
+		session.setAttribute("service_id",service_id);
 		model=new ModelAndView("customer/show_service_provider");
 
 		model.addObject("serpro",service.selectServiceProviderByServiceId(service_id));
+		
+		return model;
+	}
+	
+	// select service provider and book service finally
+	@RequestMapping(value="customer/book_service_final",method=RequestMethod.GET)
+	public ModelAndView bookeServiceFinal(@RequestParam int serpro_id,HttpSession session){
+		
+		ModelAndView model;
+		if(!isLogedin(session)){
+			model=new ModelAndView("customer/login");
+			model.addObject("msg","Please Login");
+			return model;
+		}
+		
+		int cust_id=(int)session.getAttribute("user");
+		model=new ModelAndView("customer/show_service_provider");
+		Customer cust=service.selectCustomer(cust_id);
+		model.addObject("serpro",service.selectServiceProviderByServiceId(3));
 		
 		return model;
 	}
