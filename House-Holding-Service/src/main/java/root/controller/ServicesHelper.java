@@ -61,7 +61,7 @@ public class ServicesHelper {
 	@Value("${customer.login}")
 	private String custLogin;
 
-	// customer lgin
+	// customer login
 	public Customer isValidCust(String phone, String password) {
 		RestTemplate res = new RestTemplate();
 
@@ -72,6 +72,19 @@ public class ServicesHelper {
 		return res.getForEntity(custLogin, Customer.class, hm).getBody();
 	}
 
+	// select customer by customer id
+	@Value("${customer.selectcust.bycustid}")
+	private String selCust;
+
+	public Customer selectCustomer(int cust_id) {
+		RestTemplate res = new RestTemplate();
+
+		HashMap<String,Integer> hm = new HashMap<>();
+		hm.put("cust_id",cust_id);
+
+		return res.getForEntity(selCust, Customer.class, hm).getBody();
+	}
+	
 // ***************************Service Provider********************************//
 	
 	// check service provider is registered or not

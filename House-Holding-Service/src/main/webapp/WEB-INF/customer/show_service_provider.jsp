@@ -61,7 +61,7 @@
                                             <td>${sp.mobileNo}</td>
                                             <td>${sp.address}</td>
                                           	<td class="center">
-									            <a class="btn btn-success" href="#">
+									            <a class="btn btn-success" href="/customer/book_service_final?serpro_id=${sp.serviceProviderId}">
 									                <i class="glyphicon glyphicon-ok icon-white"></i>
 									                Book
 									            </a>

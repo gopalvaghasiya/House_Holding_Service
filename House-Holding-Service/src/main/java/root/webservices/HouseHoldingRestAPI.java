@@ -222,19 +222,28 @@ public class HouseHoldingRestAPI {
 		return new ResponseEntity<ServiceCategory>(sc, HttpStatus.NOT_FOUND);
 	}
 
+	//select area by city id
 	@RequestMapping(value = "rest_select_area_by_city_id/{cityId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<Area>> selectAreaByCityId(@PathVariable("cityId") int cityId) {
 		return new ResponseEntity<ArrayList<Area>>(dataAccess.selectAreaByCityId(cityId), HttpStatus.OK);
 	}
 
+	// select skill by service provider id
 	@RequestMapping(value = "rest_select_skill_by_sp_id/{spi}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<ServicesJCategory>> selectSkillBySPI(@PathVariable("spi") int spi) {
 		return new ResponseEntity<ArrayList<ServicesJCategory>>(dataAccess.selectSkill(spi), HttpStatus.OK);
 	}
 	
+	// select service provider by service id
 	@RequestMapping(value = "rest_select_serpro_by_service_id/{service_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<ServiceProvider>> selectSPbyServiceId(@PathVariable("service_id") int serviceid) {
 		return new ResponseEntity<ArrayList<ServiceProvider>>(dataAccess.selectServiceProviderByServiceId(serviceid), HttpStatus.OK);
+	}
+	
+	// select customer by customer id
+	@RequestMapping(value = "rest_select_customer_by_cust_id/{cust_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Customer> selectCustomerBycustId(@PathVariable("cust_id") int cust_id) {
+		return new ResponseEntity<Customer>(dataAccess.selectCustomerById(cust_id), HttpStatus.OK);
 	}
 
 	// ****************************************DELETE*********************************//

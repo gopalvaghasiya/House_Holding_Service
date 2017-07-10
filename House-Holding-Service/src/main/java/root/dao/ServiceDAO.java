@@ -296,6 +296,27 @@ public class ServiceDAO {
 
 	// *****************************Select Data****************************
 
+	// select customer by id
+	public Customer selectCustomerById(int cust_id){
+		
+		String sql="select customer.area_id,customer.address from customer where customer_id=?";
+		
+		return template.query(sql, new PreparedStatementSetter(){
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setInt(1,cust_id);
+			}
+		},new ResultSetExtractor<Customer>(){
+			public Customer extractData(ResultSet rs) throws SQLException{
+				if(rs.next()){
+					Customer cust=new Customer();
+					cust.setArea(rs.getString(1));
+					cust.setAddress(rs.getString(2));
+					return cust;
+				}
+				return null;
+			}
+		});
+	}
 	// select All City
 	public ArrayList<City> selectCity() {
 
