@@ -1,6 +1,8 @@
 package root.controller;
 
 import java.net.URISyntaxException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -194,10 +196,30 @@ public class CustomerController {
 		}
 		
 		int cust_id=(int)session.getAttribute("user");
-		model=new ModelAndView("customer/show_service_provider");
-		Customer cust=service.selectCustomer(cust_id);
-		model.addObject("serpro",service.selectServiceProviderByServiceId(3));
 		
+		Customer cust=service.selectCustomer(cust_id);
+		int service_id=(int)session.getAttribute("service_id");
+		session.removeAttribute("service_id");
+		
+		BookService book=new BookService();
+		
+		book.setCustomerId(cust_id);
+		book.setSerproId(serpro_id);
+		book.setBookingDate(new Date(System.currentTimeMillis()));
+		book.setAddress(cust.getAddress());
+		book.setServiceId(service_id);
+		book.setBookServiceStatusId(1);
+		book.setAreaId(Integer.parseInt(cust.getArea()));
+		
+		int status=service.bookeService(book);
+		model=new ModelAndView("customer/home");
+		if(status==1){
+			model.addObject("response","Booked Success");
+		}
+		else{
+			model.addObject("response","Booking Failed");
+		}
+		model.addObject("servicecate",service.getServiceCategory());
 		return model;
 	}
 }
