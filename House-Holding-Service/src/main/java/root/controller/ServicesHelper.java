@@ -85,6 +85,16 @@ public class ServicesHelper {
 		return res.getForEntity(selCust, Customer.class, hm).getBody();
 	}
 	
+	// book service
+	@Value("${customer.bookservice}")
+	private String bookSer;
+	
+	public int bookeService(BookService bs){
+		RestTemplate res=new RestTemplate();
+		
+		return res.postForObject(bookSer, bs, Integer.class);
+	}
+	
 // ***************************Service Provider********************************//
 	
 	// check service provider is registered or not

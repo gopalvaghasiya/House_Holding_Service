@@ -294,6 +294,27 @@ public class ServiceDAO {
 		});
 	}
 
+	// booked service
+	public int bookService(BookService bs){
+		
+		String sql="insert into booked_service(booked_service_id,customer_id,service_provider_id,booking_date,address,service_id,booked_service_status_id,area_id)"
+				+" values(DEFAULT,?,?,?,?,?,?,?)";
+		
+		return template.update(sql,new PreparedStatementSetter(){
+			
+			public void setValues(PreparedStatement ps) throws SQLException{
+				ps.setInt(1,bs.getCustomerId());
+				ps.setInt(2,bs.getSerproId());
+				ps.setDate(3,bs.getBookingDate());
+				ps.setString(4,bs.getAddress());
+				ps.setInt(5,bs.getServiceId());
+				ps.setInt(6,bs.getBookServiceStatusId());
+				ps.setInt(7,bs.getAreaId());
+			}
+		});
+	}
+	
+	
 	// *****************************Select Data****************************
 
 	// select customer by id
@@ -687,6 +708,7 @@ public class ServiceDAO {
 		});
 	}
 	
+	// select service provider by service id
 	public ArrayList<ServiceProvider> selectServiceProviderByServiceId(int service_id){
 		String  sql="select service_provider.service_provider_id,service_provider.service_provider_name,service_provider.service_provider_mobileno,service_provider.address from "
 					+"public.skill join public.service_provider on skill.service_provider_id=service_provider.service_provider_id where skill.service_id=?";

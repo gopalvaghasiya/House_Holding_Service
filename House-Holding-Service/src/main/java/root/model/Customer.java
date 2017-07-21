@@ -2,6 +2,8 @@ package root.model;
 
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Customer {
 
 	private int customerId;
