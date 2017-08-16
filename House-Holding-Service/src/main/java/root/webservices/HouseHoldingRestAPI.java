@@ -1,7 +1,6 @@
 package root.webservices;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,12 +52,12 @@ public class HouseHoldingRestAPI {
 
 		return new ResponseEntity<Customer>(dataAccess.isValidCustomer(phone, password), HttpStatus.OK);
 	}
-	
+
 	// service provider login
-	@RequestMapping(value="/rest_serviceprovider_login/{phone}/{password}",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/rest_serviceprovider_login/{phone}/{password}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ServiceProvider> getLogginAccessForServiceProvider(@PathVariable("phone") String phone,
-			@PathVariable("password")String password){
-		return new ResponseEntity<ServiceProvider>(dataAccess.isValidServiceprovider(phone, password),HttpStatus.OK);
+			@PathVariable("password") String password) {
+		return new ResponseEntity<ServiceProvider>(dataAccess.isValidServiceprovider(phone, password), HttpStatus.OK);
 	}
 
 	// *************************Insert
@@ -94,22 +93,22 @@ public class HouseHoldingRestAPI {
 	public Integer insertCustomer(@RequestBody Customer customer) {
 		return dataAccess.insertCustomerDetail(customer);
 	}
-	
+
 	// insert service provider details
 	@RequestMapping(value = "/rest_insert_serviceprovider", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Integer insertServiceProvider(@RequestBody ServiceProvider serpro) {
 		return dataAccess.insertServiceProviderDetail(serpro);
 	}
-	
+
 	// insert service provider skill(service)
 	@RequestMapping(value = "/rest_insert_serviceprovider_skill", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Integer insertServiceProviderSkill(@RequestBody Skill skill) {
 		return dataAccess.insertServiceProviderSkill(skill.getServiceProviderId(), skill.getServiceId());
 	}
-	
+
 	// booked service detail insert
-	@RequestMapping(value="/rest_insert_book_service",method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE)
-	public Integer insertBookService(@RequestBody BookService bs){
+	@RequestMapping(value = "/rest_insert_book_service", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Integer insertBookService(@RequestBody BookService bs) {
 		return dataAccess.bookService(bs);
 	}
 
@@ -228,7 +227,7 @@ public class HouseHoldingRestAPI {
 		return new ResponseEntity<ServiceCategory>(sc, HttpStatus.NOT_FOUND);
 	}
 
-	//select area by city id
+	// select area by city id
 	@RequestMapping(value = "rest_select_area_by_city_id/{cityId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<Area>> selectAreaByCityId(@PathVariable("cityId") int cityId) {
 		return new ResponseEntity<ArrayList<Area>>(dataAccess.selectAreaByCityId(cityId), HttpStatus.OK);
@@ -239,13 +238,15 @@ public class HouseHoldingRestAPI {
 	public ResponseEntity<ArrayList<ServicesJCategory>> selectSkillBySPI(@PathVariable("spi") int spi) {
 		return new ResponseEntity<ArrayList<ServicesJCategory>>(dataAccess.selectSkill(spi), HttpStatus.OK);
 	}
-	
+
 	// select service provider by service id
-	@RequestMapping(value = "rest_select_serpro_by_service_id/{service_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ArrayList<ServiceProvider>> selectSPbyServiceId(@PathVariable("service_id") int serviceid) {
-		return new ResponseEntity<ArrayList<ServiceProvider>>(dataAccess.selectServiceProviderByServiceId(serviceid), HttpStatus.OK);
+	@RequestMapping(value = "rest_select_serpro_by_service_id/{service_id}/{area}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<ServiceProvider>> selectSPbyServiceId(@PathVariable("service_id") int serviceid,
+			@PathVariable("area") int area) {
+		return new ResponseEntity<ArrayList<ServiceProvider>>(
+				dataAccess.selectServiceProviderByServiceId(serviceid, area), HttpStatus.OK);
 	}
-	
+
 	// select customer by customer id
 	@RequestMapping(value = "rest_select_customer_by_cust_id/{cust_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Customer> selectCustomerBycustId(@PathVariable("cust_id") int cust_id) {
@@ -277,7 +278,7 @@ public class HouseHoldingRestAPI {
 	public Integer deleteServiceCategory(@PathVariable("cate_id") int cate_id) {
 		return dataAccess.deleteServiceCategory(cate_id);
 	}
-	
+
 	// delete skill by id
 	@RequestMapping(value = "rest_delete_sp_skill_by_id/{skill_id}", method = RequestMethod.DELETE)
 	public Integer deleteServiceProvideSkill(@PathVariable("skill_id") int skill_id) {
