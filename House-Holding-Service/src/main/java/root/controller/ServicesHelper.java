@@ -54,7 +54,7 @@ public class ServicesHelper {
 
 		HashMap<String, String> hm = new HashMap<>();
 		hm.put("phone", phone);
-
+		
 		return rest.getForEntity(custIsRegistered, Integer.class, hm).getBody();
 	}
 
@@ -143,13 +143,13 @@ public class ServicesHelper {
 	@Value("${serviceprovider.select.byserviceid}")
 	private String selSerProByServiceId;
 
-	public ServiceProvider[] selectServiceProviderByServiceId(int service_id) {
+	public ServiceProvider[] selectServiceProviderByServiceId(int service_id,int area) {
 
 		RestTemplate rest = new RestTemplate();
 
 		HashMap<String, Integer> hm = new HashMap<>();
 		hm.put("service_id", service_id);
-		
+		hm.put("area", area);
 		return rest.getForEntity(selSerProByServiceId,ServiceProvider[].class,hm).getBody();
 	}
 	
@@ -197,7 +197,7 @@ public class ServicesHelper {
 		hm.put("password", password);
 
 		return res.getForEntity(serproLogin, ServiceProvider.class, hm).getBody();
-	}	
+	}
 
 	// ************************GET DATA*********************************//
 

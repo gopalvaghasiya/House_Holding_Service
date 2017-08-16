@@ -18,31 +18,29 @@ import org.springframework.web.servlet.ModelAndView;
 
 import root.model.*;
 
-
 @Controller
 public class CustomerController {
 
 	@Autowired
 	ServicesHelper service;
 
-	//check customer is logedin or not
-	public boolean isLogedin(HttpSession session){
-	
-		String user_role=(String)session.getAttribute("user_role");
-		if(user_role!=null && user_role.equals("customer")){
+	// check customer is logedin or not
+	public boolean isLogedin(HttpSession session) {
+
+		String user_role = (String) session.getAttribute("user_role");
+		if (user_role != null && user_role.equals("customer")) {
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}
-	
+
 	// request for customer home page
 	@RequestMapping(value = "customer", method = RequestMethod.GET)
 	public ModelAndView goToHomePage() {
 
-		ModelAndView model=new ModelAndView("customer/home");
-		model.addObject("servicecate",service.getServiceCategory());
+		ModelAndView model = new ModelAndView("customer/home");
+		model.addObject("servicecate", service.getServiceCategory());
 		return model;
 	}
 
@@ -66,23 +64,24 @@ public class CustomerController {
 
 	// request registration of customer
 	@RequestMapping(value = "customer/register", method = RequestMethod.POST)
-	public ModelAndView RegisterationOfCustomer( @ModelAttribute("customer")@Valid Customer customer,BindingResult result, HttpSession session) throws URISyntaxException {
+	public ModelAndView RegisterationOfCustomer(@ModelAttribute("customer") @Valid Customer customer,
+			BindingResult result, HttpSession session) throws URISyntaxException {
 
 		ModelAndView model = new ModelAndView("customer/register");
-		
-		if(result.hasErrors()){
-			model=new ModelAndView("customer/register");
+
+		if (result.hasErrors()) {
+			model = new ModelAndView("customer/register");
 			return model;
 		}
-		if(service.isCustomerRegistered(customer.getMobileNo())==1){
+		if (service.isCustomerRegistered(customer.getMobileNo()) == 1) {
 			model = new ModelAndView("redirect:/customer/register");
-			model.addObject("otp","no");
-			model.addObject("response","mobile no is registered");
+			model.addObject("otp", "no");
+			model.addObject("response", "mobile no is registered");
 			return model;
 		}
-		String otp=service.sendOTP();
-		
-		session.setAttribute("otp",otp);
+		String otp = service.sendOTP();
+
+		session.setAttribute("otp", otp);
 		session.setAttribute("temp_cust", customer);
 		model.addObject("otp", "yes");
 
@@ -95,114 +94,118 @@ public class CustomerController {
 
 		ModelAndView model;
 
-		String sotp=(String)session.getAttribute("otp");
-		
-		if(sotp.equals(otp)){
-			
-			int i = service.registration((Customer)session.getAttribute("temp_cust"));
-			
-			if(i==1)
+		String sotp = (String) session.getAttribute("otp");
+
+		if (sotp.equals(otp)) {
+
+			int i = service.registration((Customer) session.getAttribute("temp_cust"));
+
+			if (i == 1)
 				model = new ModelAndView("redirect:/customer/login");
 			else
-				model=new ModelAndView("redirect:/register");
-		}
-		else{
+				model = new ModelAndView("redirect:/register");
+		} else {
 			model = new ModelAndView("customer/register");
 			model.addObject("otp", "yes");
-			model.addObject("response","Please Enter correct OTP");
+			model.addObject("response", "Please Enter correct OTP");
 		}
-		//session.setAttribute("temp_cust", customer);
+		// session.setAttribute("temp_cust", customer);
 		model.addObject("otp", "yes");
 
 		return model;
 	}
-	
+
 	// login of customer
-	@RequestMapping(value="customer/login",method=RequestMethod.POST)
-	public ModelAndView customerLogin(@RequestParam String phone,@RequestParam String pass,HttpSession session){
-		
+	@RequestMapping(value = "customer/login", method = RequestMethod.POST)
+	public ModelAndView customerLogin(@RequestParam String phone, @RequestParam String pass, HttpSession session) {
+
 		ModelAndView model;
-		
-		Customer cust=service.isValidCust(phone, pass);
-		
-		if(cust==null){
-			model=new ModelAndView("customer/login");
-			model.addObject("response","Mobile no or Password is wrong");
+
+		Customer cust = service.isValidCust(phone, pass);
+		if (cust == null) {
+			model = new ModelAndView("customer/login");
+			model.addObject("response", "Mobile no or Password is wrong");
 			return model;
 		}
-		
-		session.setAttribute("user",cust.getCustomerId());
-		session.setAttribute("user_role","customer");
-		session.setAttribute("user_name",cust.getCustomerName());
-		
-		model=new ModelAndView("redirect:/customer");
+		else if(cust.getStatus().equals("2")){
+			model = new ModelAndView("customer/login");
+			model.addObject("response", "You are blocked by Admin");
+			return model;
+		}
+
+		session.setAttribute("user", cust.getCustomerId());
+		session.setAttribute("user_role", "customer");
+		session.setAttribute("user_name", cust.getCustomerName());
+		session.setAttribute("area", Integer.parseInt(cust.getArea()));
+
+		model = new ModelAndView("redirect:/customer");
 		return model;
 	}
-	
-	//logout customer 
-	@RequestMapping(value="customer/logout",method=RequestMethod.GET)
-	public ModelAndView logoutCutomer(HttpSession session){
-		ModelAndView model=new ModelAndView("redirect:/customer");
-		
+
+	// logout customer
+	@RequestMapping(value = "customer/logout", method = RequestMethod.GET)
+	public ModelAndView logoutCutomer(HttpSession session) {
+		ModelAndView model = new ModelAndView("redirect:/customer");
+
 		session.invalidate();
 		return model;
 	}
-	
+
 	// book service
-	@RequestMapping(value="customer/book_service",method=RequestMethod.GET)
-	public ModelAndView bookService(@RequestParam int cateid,HttpSession session){
-		
+	@RequestMapping(value = "customer/book_service", method = RequestMethod.GET)
+	public ModelAndView bookService(@RequestParam int cateid, HttpSession session) {
+
 		ModelAndView model;
-		if(!isLogedin(session)){
-			model=new ModelAndView("customer/login");
-			model.addObject("msg","Please Login");
+		if (!isLogedin(session)) {
+			model = new ModelAndView("customer/login");
+			model.addObject("msg", "Please Login");
 			return model;
 		}
-		model=new ModelAndView("customer/book_service");
+		model = new ModelAndView("customer/book_service");
 
-		model.addObject("services",service.getServicesByCategoryId(cateid));
-		
+		model.addObject("services", service.getServicesByCategoryId(cateid));
+
 		return model;
 	}
-	
+
 	// show service provider
-	@RequestMapping(value="customer/show_serviceprovider",method=RequestMethod.POST)
-	public ModelAndView showServiceProvider(@RequestParam int service_id,HttpSession session){
-		
+	@RequestMapping(value = "customer/show_serviceprovider", method = RequestMethod.POST)
+	public ModelAndView showServiceProvider(@RequestParam int service_id, HttpSession session) {
+
 		ModelAndView model;
-		if(!isLogedin(session)){
-			model=new ModelAndView("customer/login");
-			model.addObject("msg","Please Login");
+		if (!isLogedin(session)) {
+			model = new ModelAndView("customer/login");
+			model.addObject("msg", "Please Login");
 			return model;
 		}
-		
-		session.setAttribute("service_id",service_id);
-		model=new ModelAndView("customer/show_service_provider");
 
-		model.addObject("serpro",service.selectServiceProviderByServiceId(service_id));
-		
+		session.setAttribute("service_id", service_id);
+		model = new ModelAndView("customer/show_service_provider");
+		int area = (int) session.getAttribute("area");
+		model.addObject("serpro", service.selectServiceProviderByServiceId(service_id, area));
+
 		return model;
 	}
-	
+
 	// select service provider and book service finally
-	@RequestMapping(value="customer/book_service_final",method=RequestMethod.GET)
-	public ModelAndView bookeServiceFinal(@RequestParam int serpro_id,HttpSession session){
-		
+	@RequestMapping(value = "customer/book_service_final", method = RequestMethod.GET)
+	public ModelAndView bookeServiceFinal(@RequestParam int serpro_id, HttpSession session) {
+
 		ModelAndView model;
-		if(!isLogedin(session)){
-			model=new ModelAndView("customer/login");
-			model.addObject("msg","Please Login");
+		if (!isLogedin(session)) {
+			model = new ModelAndView("customer/login");
+			model.addObject("msg", "Please Login");
 			return model;
 		}
-		
-		int cust_id=(int)session.getAttribute("user");
-		
-		Customer cust=service.selectCustomer(cust_id);
-		int service_id=(int)session.getAttribute("service_id");
+
+		int cust_id = (int) session.getAttribute("user");
+
+		Customer cust = service.selectCustomer(cust_id);
+		int service_id = (int) session.getAttribute("service_id");
 		session.removeAttribute("service_id");
-		
-		BookService book=new BookService();
-		
+
+		BookService book = new BookService();
+
 		book.setCustomerId(cust_id);
 		book.setSerproId(serpro_id);
 		book.setBookingDate(new Date(System.currentTimeMillis()));
@@ -210,16 +213,15 @@ public class CustomerController {
 		book.setServiceId(service_id);
 		book.setBookServiceStatusId(1);
 		book.setAreaId(Integer.parseInt(cust.getArea()));
-		
-		int status=service.bookeService(book);
-		model=new ModelAndView("customer/home");
-		if(status==1){
-			model.addObject("response","Booked Success");
+
+		int status = service.bookeService(book);
+		model = new ModelAndView("customer/home");
+		if (status == 1) {
+			model.addObject("response", "Booked Success");
+		} else {
+			model.addObject("response", "Booking Failed");
 		}
-		else{
-			model.addObject("response","Booking Failed");
-		}
-		model.addObject("servicecate",service.getServiceCategory());
+		model.addObject("servicecate", service.getServiceCategory());
 		return model;
 	}
 }

@@ -100,7 +100,7 @@ public class ServiceDAO {
 	// validate customer and return result
 	public Customer isValidCustomer(String phone, String pass) {
 
-		String sql = "select customer_id,customer_name,customer_email,customer_mobileno from customer where customer_mobileno=? and password=?";
+		String sql = "select customer_id,customer_name,customer_email,area_id,user_status_id,customer_mobileno from customer where customer_mobileno=? and password=?";
 
 		return template.query(sql, new PreparedStatementSetter() {
 
@@ -116,7 +116,9 @@ public class ServiceDAO {
 					cust.setCustomerId(rs.getInt(1));
 					cust.setCustomerName(rs.getString(2));
 					cust.setEmail(rs.getString(3));
-					cust.setMobileNo(rs.getString(4));
+					cust.setArea("" + rs.getInt(4));
+					cust.setStatus(""+rs.getInt(5));
+					cust.setMobileNo(rs.getString(6));
 
 					return cust;
 				}
@@ -128,7 +130,7 @@ public class ServiceDAO {
 	// validate service provider and return result
 	public ServiceProvider isValidServiceprovider(String phone, String pass) {
 
-		String sql = "select service_provider_id,service_provider_name,service_provider_email,service_provider_mobileno from service_provider where service_provider_mobileno=? and password=?";
+		String sql = "select service_provider_id,service_provider_name,service_provider_email,user_status_id,service_provider_mobileno from service_provider where service_provider_mobileno=? and password=?";
 
 		return template.query(sql, new PreparedStatementSetter() {
 
@@ -144,7 +146,8 @@ public class ServiceDAO {
 					serpro.setServiceProviderId(rs.getInt(1));
 					serpro.setName(rs.getString(2));
 					serpro.setEmail(rs.getString(3));
-					serpro.setMobileNo(rs.getString(4));
+					serpro.setStatus(""+rs.getInt(4));
+					serpro.setMobileNo(rs.getString(5));
 
 					return serpro;
 				}
@@ -166,7 +169,6 @@ public class ServiceDAO {
 				ps.setString(1, city.getCityName());
 			}
 		});
-
 	}
 
 	// insert area
@@ -295,41 +297,40 @@ public class ServiceDAO {
 	}
 
 	// booked service
-	public int bookService(BookService bs){
-		
-		String sql="insert into booked_service(booked_service_id,customer_id,service_provider_id,booking_date,address,service_id,booked_service_status_id,area_id)"
-				+" values(DEFAULT,?,?,?,?,?,?,?)";
-		
-		return template.update(sql,new PreparedStatementSetter(){
-			
-			public void setValues(PreparedStatement ps) throws SQLException{
-				ps.setInt(1,bs.getCustomerId());
-				ps.setInt(2,bs.getSerproId());
-				ps.setDate(3,bs.getBookingDate());
-				ps.setString(4,bs.getAddress());
-				ps.setInt(5,bs.getServiceId());
-				ps.setInt(6,bs.getBookServiceStatusId());
-				ps.setInt(7,bs.getAreaId());
+	public int bookService(BookService bs) {
+
+		String sql = "insert into booked_service(booked_service_id,customer_id,service_provider_id,booking_date,address,service_id,booked_service_status_id,area_id)"
+				+ " values(DEFAULT,?,?,?,?,?,?,?)";
+
+		return template.update(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, bs.getCustomerId());
+				ps.setInt(2, bs.getSerproId());
+				ps.setDate(3, bs.getBookingDate());
+				ps.setString(4, bs.getAddress());
+				ps.setInt(5, bs.getServiceId());
+				ps.setInt(6, bs.getBookServiceStatusId());
+				ps.setInt(7, bs.getAreaId());
 			}
 		});
 	}
-	
-	
+
 	// *****************************Select Data****************************
 
 	// select customer by id
-	public Customer selectCustomerById(int cust_id){
-		
-		String sql="select customer.area_id,customer.address from customer where customer_id=?";
-		
-		return template.query(sql, new PreparedStatementSetter(){
-			public void setValues(PreparedStatement ps) throws SQLException{
-				ps.setInt(1,cust_id);
+	public Customer selectCustomerById(int cust_id) {
+
+		String sql = "select customer.area_id,customer.address from customer where customer_id=?";
+
+		return template.query(sql, new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, cust_id);
 			}
-		},new ResultSetExtractor<Customer>(){
-			public Customer extractData(ResultSet rs) throws SQLException{
-				if(rs.next()){
-					Customer cust=new Customer();
+		}, new ResultSetExtractor<Customer>() {
+			public Customer extractData(ResultSet rs) throws SQLException {
+				if (rs.next()) {
+					Customer cust = new Customer();
 					cust.setArea(rs.getString(1));
 					cust.setAddress(rs.getString(2));
 					return cust;
@@ -338,6 +339,7 @@ public class ServiceDAO {
 			}
 		});
 	}
+
 	// select All City
 	public ArrayList<City> selectCity() {
 
@@ -676,13 +678,12 @@ public class ServiceDAO {
 				+ "join public.service_category on services.service_category_id=service_category.service_category_id "
 				+ "where skill.service_provider_id=?";
 
-		return template.query(sql,new PreparedStatementSetter(){
-			
-			public void setValues(PreparedStatement ps) throws SQLException{
+		return template.query(sql, new PreparedStatementSetter() {
+
+			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, spi);
 			}
-		}
-		, new ResultSetExtractor<ArrayList<ServicesJCategory>>() {
+		}, new ResultSetExtractor<ArrayList<ServicesJCategory>>() {
 
 			public ArrayList<ServicesJCategory> extractData(ResultSet rs) throws SQLException {
 				ArrayList<ServicesJCategory> al = new ArrayList<>();
@@ -707,27 +708,28 @@ public class ServiceDAO {
 
 		});
 	}
-	
+
 	// select service provider by service id
-	public ArrayList<ServiceProvider> selectServiceProviderByServiceId(int service_id){
-		String  sql="select service_provider.service_provider_id,service_provider.service_provider_name,service_provider.service_provider_mobileno,service_provider.address from "
-					+"public.skill join public.service_provider on skill.service_provider_id=service_provider.service_provider_id where skill.service_id=?";
-		
-		return template.query(sql, new PreparedStatementSetter(){
-			public void setValues(PreparedStatement ps) throws SQLException{
-				ps.setInt(1,service_id);
+	public ArrayList<ServiceProvider> selectServiceProviderByServiceId(int service_id, int area) {
+		String sql = "select service_provider.service_provider_id,service_provider.service_provider_name,service_provider.service_provider_mobileno,service_provider.address from "
+				+ "public.skill join public.service_provider on skill.service_provider_id=service_provider.service_provider_id where skill.service_id=? and service_provider.area_id=?";
+
+		return template.query(sql, new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, service_id);
+				ps.setInt(2, area);
 			}
-		},new ResultSetExtractor<ArrayList<ServiceProvider>>(){
-			public ArrayList<ServiceProvider> extractData(ResultSet rs) throws SQLException{
-				ArrayList<ServiceProvider> spal=new ArrayList<>();
-				
-				while(rs.next()){
-					ServiceProvider sp=new ServiceProvider();
+		}, new ResultSetExtractor<ArrayList<ServiceProvider>>() {
+			public ArrayList<ServiceProvider> extractData(ResultSet rs) throws SQLException {
+				ArrayList<ServiceProvider> spal = new ArrayList<>();
+
+				while (rs.next()) {
+					ServiceProvider sp = new ServiceProvider();
 					sp.setServiceProviderId(rs.getInt(1));
 					sp.setName(rs.getString(2));
 					sp.setMobileNo(rs.getString(3));
 					sp.setAddress(rs.getString(4));
-					
+
 					spal.add(sp);
 				}
 				return spal;
@@ -867,7 +869,7 @@ public class ServiceDAO {
 			}
 		});
 	}
-	
+
 	// delete service provider skill
 	public int deleteServiceProviderSkill(int skill_id) {
 		String sql = "delete from skill where skill_id=?";

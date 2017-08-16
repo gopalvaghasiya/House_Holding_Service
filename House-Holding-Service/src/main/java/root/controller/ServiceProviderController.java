@@ -136,6 +136,11 @@ public class ServiceProviderController {
 			model.addObject("response", "Mobile no or Password is wrong");
 			return model;
 		}
+		else if(serpro.getStatus().equals("2")){
+			model = new ModelAndView("serviceprovider/login");
+			model.addObject("response", "You are block by admin");
+			return model;
+		}
 
 		session.setAttribute("user", serpro.getServiceProviderId());
 		session.setAttribute("user_role", "serviceprovider");
